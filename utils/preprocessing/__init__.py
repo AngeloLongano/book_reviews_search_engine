@@ -1,0 +1,2 @@
+
+# Esegue la sentimental anali

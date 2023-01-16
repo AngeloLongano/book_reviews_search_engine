@@ -1,4 +1,6 @@
 venv
 
-books_data.csv
-Books_rating.csv
+source_data/books_data.csv
+source_data/books_rating.csv
+
+processed_data
