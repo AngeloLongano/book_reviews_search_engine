@@ -7,7 +7,7 @@ Modellazione dei dati
 
 class DocumentModel(TypedDict):
     id_document: int
-    title:str
+    title: str
     description: str
     category: str
 

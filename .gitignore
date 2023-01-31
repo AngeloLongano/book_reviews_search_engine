@@ -2,5 +2,6 @@ venv
 
 source_data/books_data.csv
 source_data/books_rating.csv
+/sample.json
 
 processed_data
