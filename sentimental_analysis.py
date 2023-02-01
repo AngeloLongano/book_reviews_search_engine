@@ -2,19 +2,16 @@ import numpy as np
 from scipy.special import softmax
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer, AutoConfig
-
+MODEL = f"cardiffnlp/twitter-xlm-roberta-base-sentiment"
 
 #inizalizzazione del modello di sentiment analysis e restituzione delle variabili necessarie
 def initialize_sentiment_model():
+    tokenizer = AutoTokenizer.from_pretrained(MODEL)
+    config = AutoConfig.from_pretrained(MODEL)
 
-    model = f"cardiffnlp/twitter-xlm-roberta-base-sentiment"
-
-    tokenizer = AutoTokenizer.from_pretrained(model)
-    config = AutoConfig.from_pretrained(model)
-
-    model = AutoModelForSequenceClassification.from_pretrained(model)
-    model.save_pretrained(model)
-    tokenizer.save_pretrained(model)
+    model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+    model.save_pretrained(MODEL)
+    tokenizer.save_pretrained(MODEL)
 
     return {"tokenizer":tokenizer,"model":model,"config":config}
 
@@ -22,9 +19,9 @@ def initialize_sentiment_model():
 #calcolo della sentiment sulla entry restituendo 3 valori di positivià,negatività e neutralità
 def sentiment(text,tokenizer,model,config):
     
-    sentiment_neg = 0
-    sentiment_neu = 0
-    sentiment_pos = 0
+    negative = 0
+    neutral = 0
+    positive = 0
 
     encoded_input = tokenizer(text, return_tensors='pt',max_length=512,truncation=True)
     output = model(**encoded_input)
@@ -39,10 +36,10 @@ def sentiment(text,tokenizer,model,config):
         s = scores[ranking[i]]
         #in base alla label assegno il valore alla variabile specifica
         if l == "negative":
-            sentiment_neg = np.round(float(s), 4)
+            negative = np.round(float(s), 4)
         elif l == "positive":
-            sentiment_pos = np.round(float(s), 4)
+            positive = np.round(float(s), 4)
         else:
-            sentiment_neu = np.round(float(s), 4)
+            neutral = np.round(float(s), 4)
 
-    return {"sentiment_neg":sentiment_neg,"sentiment_neu":sentiment_neu,"sentiment_pos":sentiment_pos}
+    return {"negative":negative,"neutral":neutral,"positive":positive}

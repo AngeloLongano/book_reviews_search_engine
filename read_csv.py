@@ -3,12 +3,12 @@ import inverted_index
 import os
 from datetime import datetime
 
-import sentimental_analysis
+from sentimental_analysis import sentiment,initialize_sentiment_model
 
 #path per il file books_ratings.csv
 csv_path = os.getcwd()+"/source_data/books_rating.csv"
 #ottengo le 3 variabili che servono per la sentimenti analysis [tokenizer,model,config]
-model_variables=sentimental_analysis.initialize_sentiment_model()
+model_variables=initialize_sentiment_model()
 #numero di record che vogliamo
 number_of_records = 10
 
@@ -37,7 +37,7 @@ if __name__ == "__main__":
                 if item["Id"] != "" and item["User_id"] != "" and item["Title"] != "" and item["review/text"] != "" and item["review/score"] != "" and item["Price"] != "":
                     
                     #ottengo i valori della sentiment sul testo della recensione 
-                    results = sentimental_analysis.sentiment(item["review/text"],tokenizer,model,config)                
+                    results = sentiment(item["review/text"],tokenizer,model,config)
                     #oggetto con i campi del documento da inserire nell'index
                     review = {
                         "bookId":item["Id"],
