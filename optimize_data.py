@@ -5,10 +5,8 @@ from sentimental_analysis import sentiment, initialize_sentiment_model
 csv_path = "source_data/books_rating.csv"
 
 def is_correct(item):
-    if item["Id"] != "" and item["User_id"] != "" and item["Title"] != "" and item["review/text"] != "" and item["review/score"] != "" and item["Price"] != "" :
-        return True
-    else:
-        return False
+    return item["Id"] != "" and item["User_id"] != "" and item["Title"] != "" and item["review/text"] != "" and item["review/score"] != "" and item["Price"] != ""
+
 def parsed_object(item):
     return {
                 "id_user": item["User_id"],
