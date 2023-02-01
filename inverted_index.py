@@ -9,10 +9,10 @@ def initialize_index():
     index_directory_path = os.getcwd()+"/index"
     index_directory = os.listdir(index_directory_path)
     ix = None
-    # if len(index_directory)==0:
-    schema = ReviewScheme()
-    ix = index.create_in(index_directory_path, schema)
-    # else:
-    #     ix = index.open_dir(index_directory_path)
+    if len(index_directory)==0:
+        schema = ReviewScheme()
+        ix = index.create_in(index_directory_path, schema)
+    else:
+        ix = index.open_dir(index_directory_path)
     
     return ix
