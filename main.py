@@ -6,7 +6,7 @@ from datetime import datetime
 from sentimental_analysis import sentiment, initialize_sentiment_model
 
 # path per il file books_ratings.csv
-data_path = os.getcwd() + "/processed_data/books_rating.csv"
+data_path = os.getcwd() + "/processed_data/books_rating_with_sentimental.csv"
 
 if __name__ == "__main__":
     # dichiarazione della variabile ix per accedere all'index
