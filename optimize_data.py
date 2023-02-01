@@ -2,7 +2,8 @@ import csv
 
 from sentimental_analysis import sentiment, initialize_sentiment_model
 
-csv_path = "source_data/books_rating.csv"
+csv_path_preprocessed = "source_data/books_rating.csv"
+csv_path_processed = 'processed_data/books_rating.csv'
 
 def is_correct(item):
     return item["Id"] != "" and item["User_id"] != "" and item["Title"] != "" and item["review/text"] != "" and item["review/score"] != "" and item["Price"] != ""
@@ -25,8 +26,8 @@ def add_review(item,writer):
         writer.writerow(parsed_object(item))
 
 fields=["id_user","name_user","date","title","text","score","id_book","price_book","title_book","negative_sentiment","neutral_sentiment","positive_sentiment"]
-with open(csv_path, newline='') as file_old:
-    with open('processed_data/books_rating.csv', 'w', newline='') as file_new:
+with open(csv_path_preprocessed, newline='') as file_old:
+    with open(csv_path_processed, 'w', newline='') as file_new:
         writer = csv.DictWriter(file_new, fieldnames=fields)
         writer.writeheader()
         # lettura file csv
