@@ -3,16 +3,14 @@ from whoosh.qparser import QueryParser
 
 from Scheme import ReviewScheme
 from inverted_index import initialize_index
+from utils.ManageReviewIndex import MangeReviewIndex
 
-ix = initialize_index()
 
-qp = QueryParser("text", schema=ReviewScheme())
-q = qp.parse("I just finished the book")
 
-with ix.searcher(weighting=scoring.TF_IDF()) as searcher:
-    results = searcher.search(q)
-    print("ricerca")
-    print(results)
-    for hit in results:
-        print(hit["text"])
-        print(hit.highlights("text"))
+index_manager = MangeReviewIndex()
+
+index_manager.initialize_index()
+
+index_manager.search_index("book","text")
+
+

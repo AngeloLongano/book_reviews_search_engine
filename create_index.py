@@ -1,5 +1,5 @@
 import csv
-import inverted_index
+from utils.ManageReviewIndex import MangeReviewIndex
 import os
 from datetime import datetime
 
@@ -8,21 +8,24 @@ from sentimental_analysis import sentiment, initialize_sentiment_model
 # path per il file books_ratings.csv
 data_path = os.getcwd() + "/processed_data/books_rating_with_sentimental.csv"
 
+
 if __name__ == "__main__":
     # dichiarazione della variabile ix per accedere all'index
-    ix = inverted_index.initialize_index()
+    index_manager = MangeReviewIndex()
 
     with open(data_path, newline='') as f:
         print("aperto il file")
         data = csv.DictReader(f)
         # inizializzazione del writer che permette la scrittura sull'index
-        writer = ix.writer()
+        index_manager.initialize_index()
+
+        index_manager_functions = index_manager.writer_function()
 
         index=0
         for item in data:
             if index%100==0 :
                 print("Indicizzati: ",index)
-            if index==100 :
+            if index==100:
                 break
             index+=1
 
@@ -39,8 +42,7 @@ if __name__ == "__main__":
             }
 
             # aggiunta del documento all'index
-            print(review)
-            writer.add_document(**review)
-        writer.commit()
+            index_manager_functions["add_document"](**review)
+        index_manager_functions["save_document"]()
 
 print("done")

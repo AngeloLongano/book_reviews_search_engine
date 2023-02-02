@@ -1,7 +1,5 @@
 import csv
 
-from sentimental_analysis import sentiment, initialize_sentiment_model
-
 csv_path_preprocessed = "source_data/books_rating.csv"
 csv_path_processed = 'processed_data/books_rating.csv'
 
@@ -36,9 +34,7 @@ with open(csv_path_preprocessed, newline='') as file_old:
         for item in reader:
             if index%100 == 0:
                 print("righe lette ",index)
-            # if index>5000:
-            #     break
-            index+=1
             add_review(item,writer)
+            index+=1
 
 print("done")

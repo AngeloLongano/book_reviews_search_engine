@@ -9,7 +9,7 @@ Sentimental Analysis with [model](https://huggingface.co/cardiffnlp/twitter-xlm-
 Per preparare l'index:
 run optimize_data.py
 run save_sentimental_analysis.py
-run main.py
+run create_index.py
 
 per ricerca:
 run search_index.py

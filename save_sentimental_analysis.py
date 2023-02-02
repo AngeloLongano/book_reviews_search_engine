@@ -36,7 +36,7 @@ with open(books_rating_path, newline='') as file_old:
         for item in reader:
             if index%10 == 0:
                 print("righe lette ",index)
-            if index>100:
+            if index==100:
                 break
             index+=1
             add_review(item,writer)
