@@ -33,7 +33,8 @@ class MangeReviewIndex:
             query_results = searcher.search(query_parsed)
             print("ricerca")
             for result in query_results:
-                print(result)
+                for i in result:
+                    print(i+": ",result[i])
                 '''
                 print(result[field],"\n")
                 print(result.highlights(field))

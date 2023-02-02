@@ -2,7 +2,7 @@ import numpy as np
 from scipy.special import softmax
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer, AutoConfig
-MODEL = f"cardiffnlp/twitter-xlm-roberta-base-sentiment"
+MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
 
 #inizalizzazione del modello di sentiment analysis e restituzione delle variabili necessarie
 def initialize_sentiment_model():
