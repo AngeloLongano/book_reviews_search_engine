@@ -1,9 +1,8 @@
 import csv
-from utils.ManageReviewIndex import MangeReviewIndex
 import os
 from datetime import datetime
 
-from sentimental_analysis import sentiment, initialize_sentiment_model
+from utils.ManageReviewIndex import MangeReviewIndex
 
 # path per il file books_ratings.csv
 data_path = os.getcwd() + "/processed_data/books_rating_with_sentimental.csv"
