@@ -1,9 +1,10 @@
-from Scheme import ReviewScheme
+import os
+
+import whoosh.index as index
 from whoosh import scoring
 from whoosh.qparser import QueryParser
-from Scheme import ReviewScheme
-import whoosh.index as index
-import os
+
+from utils.models.Scheme import ReviewScheme
 
 
 class MangeReviewIndex:
