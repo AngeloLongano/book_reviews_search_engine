@@ -10,7 +10,7 @@ from utils.models.Scheme import ReviewScheme
 class MangeReviewIndex:
 
     schema = ReviewScheme()
-    index_path = os.getcwd() + "/index"
+    index_path = "../index"
 
     def __init__(self):
         self.index_directory_path = MangeReviewIndex.index_path

@@ -5,7 +5,7 @@ from datetime import datetime
 from utils.ManageReviewIndex import MangeReviewIndex
 
 # path per il file books_ratings.csv
-data_path = os.getcwd() + "/processed_data/books_rating_with_sentimental.csv"
+data_path = "../processed_data/books_rating_with_sentimental.csv"
 
 
 if __name__ == "__main__":
