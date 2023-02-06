@@ -1,10 +1,8 @@
 venv
 
-source_data
-source_data/books_data.csv
-source_data/books_rating.csv
-/sample.json
+source_data/Books_rating.csv
+
 cardiffnlp
-processed_data
+processed_data/
 index
 __pycache__

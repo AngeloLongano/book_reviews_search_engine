@@ -1,4 +1,5 @@
 import csv
+import sys
 from typing import Callable
 
 from utils.models.DocumentModel import DocumentModel, FIELDS
@@ -13,11 +14,12 @@ def optimize_file(old_file_path:str,new_file_path:str,parse_object:Callable[[dic
             reader = csv.DictReader(file_old)
             index = 0
             for item in reader:
-                if index % 10 == 0:
-                    print("righe lette ", index)
+                sys.stdout.write("\r\tDocumenti analizzati %i" % index)
+                sys.stdout.flush()
                 if n_documents and index == n_documents:
                     break
                 index += 1
                 parsed_item = parse_object(item)
                 if parsed_item is not None:
                     writer.writerow(parsed_item)
+            print()

@@ -1,3 +1,3 @@
-from utils.preprocessing.main_preprocessing import preprocessing
+from preprocessing.main_preprocessing import preprocessing
 
 preprocessing()

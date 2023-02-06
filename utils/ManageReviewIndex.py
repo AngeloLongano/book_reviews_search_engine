@@ -5,15 +5,17 @@ from whoosh import scoring
 from whoosh.qparser import QueryParser
 
 from utils.models.Scheme import ReviewScheme
+from utils.services.path_used_service import INDEX_DIR_PATH
 
 
 class MangeReviewIndex:
 
     schema = ReviewScheme()
-    index_path = os.getcwd() + "/index"
+    #index_path = os.getcwd() + "/index"
 
     def __init__(self):
-        self.index_directory_path = MangeReviewIndex.index_path
+        #self.index_directory_path = MangeReviewIndex.index_path
+        self.index_directory_path = INDEX_DIR_PATH
         self.ix=None
         self.default_field = "text"
     def initialize_index(self):

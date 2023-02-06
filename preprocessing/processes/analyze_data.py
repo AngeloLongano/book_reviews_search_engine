@@ -1,10 +1,6 @@
-import os
-
-from utils.OptimizeService import optimize_file
-from utils.sentimental_analysis import sentiment, initialize_sentiment_model
-
-books_rating_path = os.getcwd() + "/processed_data/books_rating.csv"
-books_rating_with_sentimental_path = os.getcwd() + "/processed_data/books_rating_with_sentimental.csv"
+from utils.services.optimizer_file_service import optimize_file
+from utils.services.path_used_service import OPTIMIZED_DATA_PATH, ANALYZED_DATA_PATH
+from utils.services.sentimental_analysis_service import sentiment, initialize_sentiment_model
 
 # ottengo le 3 variabili che servono per la sentimenti analysis [tokenizer,model,config]
 model_variables = initialize_sentiment_model()
@@ -22,14 +18,9 @@ def add_sentimental_analysis(item):
         "neutral_sentiment": sentiment_analysis["neutral"],
         "positive_sentiment": sentiment_analysis["positive"],
     }
-def save_sentimental_analysis():
-    optimize_file(old_file_path=books_rating_path,new_file_path=books_rating_with_sentimental_path,parse_object=add_sentimental_analysis,n_documents=100)
 
 
-
-
-
-
-
-
-
+def analyze_data():
+    print("Inizio sentimental analysis sui dati...")
+    optimize_file(old_file_path=OPTIMIZED_DATA_PATH, new_file_path=ANALYZED_DATA_PATH,
+                  parse_object=add_sentimental_analysis, n_documents=100)
