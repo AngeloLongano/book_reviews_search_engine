@@ -1,8 +1,9 @@
 venv
 
 source_data/Books_rating.csv
+processed_data/books_rating.csv
+processed_data/books_rating_with_sentimental.csv
 
 cardiffnlp
-processed_data/
 index
 __pycache__
