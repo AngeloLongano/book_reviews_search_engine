@@ -7,3 +7,4 @@ processed_data/books_rating_with_sentimental.csv
 cardiffnlp
 index
 __pycache__
+.idea
