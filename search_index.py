@@ -6,7 +6,7 @@ index_manager = MangeReviewIndex()
 
 index_manager.initialize_index()
 
-index_manager.search_index('title:"must read"',"text")
+index_manager.search_index('title:"book"',"text")
 print("------CORREZIONE QUERY-------\n")
-index_manager.suggest_words("bool")
+index_manager.suggest_words("ciao")
 

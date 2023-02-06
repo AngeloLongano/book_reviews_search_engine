@@ -6,10 +6,10 @@
 
 Sentimental Analysis with [model](https://huggingface.co/cardiffnlp/twitter-xlm-roberta-base-sentiment)
 
-Per preparare l'index:
-run optimize_data.py
-run save_sentimental_analysis.py
-run create_index.py
+Preprocessing
+    
+    python3 main.py
 
 per ricerca:
-run search_index.py
+
+    python3 search_index.py

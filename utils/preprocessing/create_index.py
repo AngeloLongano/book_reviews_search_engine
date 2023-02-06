@@ -5,10 +5,9 @@ from datetime import datetime
 from utils.ManageReviewIndex import MangeReviewIndex
 
 # path per il file books_ratings.csv
-data_path = "../processed_data/books_rating_with_sentimental.csv"
+data_path = os.getcwd() + "/processed_data/books_rating_with_sentimental.csv"
 
-
-if __name__ == "__main__":
+def create_index():
     # dichiarazione della variabile ix per accedere all'index
     index_manager = MangeReviewIndex()
 
@@ -22,7 +21,7 @@ if __name__ == "__main__":
 
         index=0
         for item in data:
-            if index%100==0 :
+            if index%10==0 :
                 print("Indicizzati: ",index)
             if index==100:
                 break
@@ -44,4 +43,4 @@ if __name__ == "__main__":
             index_manager_functions["add_document"](**review)
         index_manager_functions["save_document"]()
 
-print("done")
+        print("done")
