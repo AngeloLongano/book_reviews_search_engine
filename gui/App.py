@@ -1,7 +1,7 @@
 import tkinter
 from tkinter import *
 import customtkinter
-from PIL import ImageTk, Image
+from gui.top_level_window import ToplevelWindow
 from utils.models.DocumentModel import DocumentModel
 from utils.ManageReviewIndex import MangeReviewIndex
 from utils.services.path_used_service import IMAGE_PATH
@@ -9,14 +9,6 @@ from utils.services.path_used_service import IMAGE_PATH
 
 def change_appearance_mode_event(new_mode: str):
     customtkinter.set_appearance_mode(new_mode)
-
-class ToplevelWindow(customtkinter.CTkToplevel):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.geometry("400x300")
-
-        self.label = customtkinter.CTkLabel(self, text="ToplevelWindow")
-        self.label.pack(padx=20, pady=20)
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -64,10 +56,6 @@ class App(customtkinter.CTk):
                                                            values=["Positive", "Neutral", "Negative"], )
         self.sentiment_value.grid(row=4, column=0, padx=20, pady=10)
         self.sentiment_value.set("Neutral")  # set initial value
-
-        # slider
-        #self.sentiment_slider = customtkinter.CTkSlider(master=self.left_side_bar, from_=0, to=100)
-        #self.sentiment_slider.grid(row=5, column=0, padx=20, pady=10)
 
         # Sort By
         self.sort_by_label = customtkinter.CTkLabel(self.left_side_bar, text="Sort by:",anchor="w")
@@ -125,8 +113,9 @@ class App(customtkinter.CTk):
         self.my_canvas.create_window((0, 0), window=self.my_frame, anchor="nw")
         self.my_frame.children
 
-    def open_book_model(self):
-        self.toplevel_window = ToplevelWindow(self)  # create window if its None or destroyed
+    # open book info
+    def open_book_model(self, document):
+        self.toplevel_window = ToplevelWindow(self, document)  # create window if its None or destroyed
 
     # metodi
     def crea_libro(self, riga, document: DocumentModel):
@@ -138,34 +127,34 @@ class App(customtkinter.CTk):
         self.book.grid_rowconfigure((0, 1, 2), weight=1)
 
         # Book title
+        my_font = customtkinter.CTkFont(size=35, weight='bold')
         self.book_title = customtkinter.CTkLabel(self.book,
                                             text=document["title_book"],
                                             text_color='#1e538c',
-                                            font=(None, 20),
+                                            font=my_font,
+                                            justify="left",
                                             corner_radius=8)
-        self.book_title.grid(row=0, column=0)
-        self.book_title.place(relx=0, rely=0)
+        self.book_title.grid(row=0, column=0, pady=20)
 
         # Data review
         self.data_review = customtkinter.CTkLabel(self.book,
-                                            text=document["date"],
-                                            text_color='#1e538c',
-                                            font=(None, 20),
+                                            text=str(document["date"])[:10],
+                                            font=(None, 12),
                                             corner_radius=8)
-        self.data_review.grid(row=0, column=2)
+        self.data_review.grid(row=0, column=2, padx=5)
 
         # Review Title
         title_score = document["title"]+", Score:"+str(document["score"])
 
         self.review_title = customtkinter.CTkLabel(self.book,
                                             text=title_score,
-                                            font=("bold", 15),
+                                            font=(None, 15),
                                             anchor=NW,
                                             corner_radius=8)
         self.review_title.grid(row=1, column=0)
 
         # Review
-        self.review = customtkinter.CTkTextbox(self.book, width=620, height=150)
+        self.review = customtkinter.CTkTextbox(self.book, width=620, height=130)
         self.review.grid(row=2, column=0)
         self.review.insert("0.0",document["text"][:300])  # insert at line 0 character 0
         self.review.configure(state="disabled")
@@ -174,28 +163,36 @@ class App(customtkinter.CTk):
         self.review_author = customtkinter.CTkLabel(self.book,
                                             text=document["name_user"],
                                             text_color='#1e538c',
-                                            font=(None, 10),
-                                            anchor='w',
+                                            font=(None, 14),
                                             corner_radius=8)
         self.review_author.grid(row=3, column=0)
 
         # Sentiment
         self.sentiment = customtkinter.CTkLabel(self.book,
-                                            text=document["negative_sentiment"],
                                             text_color='black',
-                                            fg_color=("red"),
                                             corner_radius=8)
         # recensione.place(relx=0.5, rely=0.5, anchor=tkinter.N)
         self.sentiment.grid(row=1, column=2)
 
+        if(document["negative_sentiment"] > document["neutral_sentiment"] and document["negative_sentiment"] > document["positive_sentiment"]):
+            self.sentiment.configure(text=document["negative_sentiment"],fg_color=("red"))
+
+        elif(document["neutral_sentiment"] > document["negative_sentiment"] and document["neutral_sentiment"] > document["positive_sentiment"]):
+            self.sentiment.configure(text=document["neutral_sentiment"],fg_color=("white"))
+        
+        elif(document["positive_sentiment"] > document["negative_sentiment"] and document["positive_sentiment"] > document["neutral_sentiment"]):
+            self.sentiment.configure(text=document["positive_sentiment"],fg_color=("green"))
+        
+
+        # Open book info
         self.open_book_info = customtkinter.CTkButton(self.book,
-                                                    width=120,
+                                                    width=80,
                                                     height=32,
-                                                    command= self.open_book_model,
+                                                    command= lambda: self.open_book_model(document),
                                                     border_width=0,
                                                     corner_radius=8,
-                                                    text="Ricerca")
-        self.open_book_info.grid(row=1, column=4, padx=0, pady=(10, 20))
+                                                    text="Open book info")
+        self.open_book_info.grid(row=2, column=2, padx=0, pady=(10, 20))
 
 
     def submit_search(self):
