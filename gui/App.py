@@ -22,6 +22,8 @@ class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
 
+       
+
         # configure window
         self.title("Books Review")
         self.geometry(f"{1100}x{580}")  # {1100}x{580}
@@ -61,9 +63,9 @@ class App(customtkinter.CTk):
 
         # filtri
         self.sentiment_value = customtkinter.CTkOptionMenu(self.left_side_bar,
-                                                           values=["Positive", "Neutral", "Negative"], )
+                                                           values=["None","Positive", "Neutral", "Negative"], )
         self.sentiment_value.grid(row=4, column=0, padx=20, pady=10)
-        self.sentiment_value.set("Neutral")  # set initial value
+        self.sentiment_value.set("None")
 
         # slider
         #self.sentiment_slider = customtkinter.CTkSlider(master=self.left_side_bar, from_=0, to=100)
@@ -124,6 +126,13 @@ class App(customtkinter.CTk):
         self.my_frame = Frame(self.my_canvas, bg='#1a1a1a', bd=0)
         self.my_canvas.create_window((0, 0), window=self.my_frame, anchor="nw")
         self.my_frame.children
+
+        # inizializzazione
+        self.submit_query.configure(command=self.submit_search)
+        #da non considerare
+        #self.sentiment_value.configure(variable=tkinter.StringVar())
+        #self.num_max_docs.configure(textvariable=tkinter.StringVar())
+        #self.reverse.configure(variable=tkinter.BooleanVar())
 
     def open_book_model(self):
         self.toplevel_window = ToplevelWindow(self)  # create window if its None or destroyed
@@ -197,16 +206,21 @@ class App(customtkinter.CTk):
                                                     text="Ricerca")
         self.open_book_info.grid(row=1, column=4, padx=0, pady=(10, 20))
 
+         
 
     def submit_search(self):
         query = self.query.get()
-        print("Query di ricerca: " + query)
+        reverse = self.reverse.get()
+        num_max_docs = self.num_max_docs.get()
+        sentiment_value = self.sentiment_value.get()
+
+        print("parametri: ",query,reverse,num_max_docs,sentiment_value)
 
         index_manager = MangeReviewIndex()
         index_manager.initialize_index()
 
         index=0
-        query_results = index_manager.search_index('text:"book"',"text")
+        query_results = index_manager.search_index(query,"text")
         
         for i in query_results:
             self.crea_libro(index, i)
