@@ -66,16 +66,26 @@ class App(customtkinter.CTk):
         self.sentiment_value.set("Neutral")  # set initial value
 
         # slider
-        self.sentiment_slider = customtkinter.CTkSlider(master=self.left_side_bar, from_=0, to=100)
-        self.sentiment_slider.grid(row=5, column=0, padx=20, pady=10)
+        #self.sentiment_slider = customtkinter.CTkSlider(master=self.left_side_bar, from_=0, to=100)
+        #self.sentiment_slider.grid(row=5, column=0, padx=20, pady=10)
+
+        # Sort By
+        self.sort_by_label = customtkinter.CTkLabel(self.left_side_bar, text="Sort by:",anchor="w")
+        self.sort_by_label.grid(row=5, column=0)
+
+        self.sort_by = customtkinter.CTkOptionMenu(self.left_side_bar, values=["Price", "Negative", "Neutral", "Positive", "Score", "Data"], )
+        self.sort_by.grid(row=6, column=0, padx=20, pady=10)
+
+        self.reverse = customtkinter.CTkSwitch(master=self.left_side_bar, text="Reverse Sort", onvalue="on", offvalue="off")
+        self.reverse.grid(row=7, column=0, padx=20, pady=10)
 
         # Appearance Mode
         self.appearance_model_label = customtkinter.CTkLabel(self.left_side_bar, text="Aspetto:", anchor="w")
-        self.appearance_model_label.grid(row=6, column=0)
+        self.appearance_model_label.grid(row=8, column=0)
         self.appearance_mode_menu = customtkinter.CTkOptionMenu(self.left_side_bar,
                                                                 values=["Light", "Dark", "System"],
                                                                 command=change_appearance_mode_event)
-        self.appearance_mode_menu.grid(row=7, column=0)
+        self.appearance_mode_menu.grid(row=9, column=0)
 
         # ------------------- Right Frame ----------------------
         # input search
@@ -139,7 +149,7 @@ class App(customtkinter.CTk):
 
         # Review
         review = customtkinter.CTkTextbox(self.book, width=620, height=150)
-        review.grid(row=1, column=2, rowspan=2)
+        review.grid(row=1, column=0, rowspan=2)
         review.insert("0.0",document["text"])  # insert at line 0 character 0
         review.configure(state="disabled")
 
