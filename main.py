@@ -12,13 +12,13 @@ if __name__ == "__main__":
     customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
     app = App()
-    nMaxDoc = tkinter.StringVar()
+    num_max_docs = tkinter.StringVar()
     sentimentValue = tkinter.StringVar()
 
     # inizializzazione
-    app.submitQuery.configure(command=app.submit_search)
-    app.sentimentValue.configure(variable=sentimentValue)
-    app.nMaxDoc.configure(textvariable=nMaxDoc)
+    app.submit_query.configure(command=app.submit_search)
+    app.sentiment_value.configure(variable=sentimentValue)
+    app.num_max_docs.configure(textvariable=num_max_docs)
     app.crea_libri()
 
     app.mainloop()

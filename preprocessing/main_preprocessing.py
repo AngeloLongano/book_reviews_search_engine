@@ -16,7 +16,6 @@ def preprocessing():
 
     print("SENTIMENTAL ANALYSIS FATTA")
 
-    print(is_there_index_dir())
     if is_there_index_dir():
         create_index()
 
