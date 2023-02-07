@@ -1,21 +1,19 @@
-import tkinter.messagebox
+import tkinter
 from tkinter import *
 
 import customtkinter
 from PIL import ImageTk, Image
 
-customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
-customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
+from utils.services.path_used_service import IMAGE_PATH
 
 
 class App(customtkinter.CTk):
-
     def __init__(self):
         super().__init__()
 
         # configure window
         self.title("Books Review")
-        self.geometry(f"{2100}x{1080}")  # {1100}x{580}
+        self.geometry(f"{1100}x{580}")  # {1100}x{580}
 
         # configure grid layout (4x4)
         self.grid_columnconfigure(1, weight=1)
@@ -99,77 +97,63 @@ class App(customtkinter.CTk):
         self.yscroll.pack(side=RIGHT, fill="y")
 
         self.mycanvas.configure(yscrollcommand=self.yscroll.set)
-        self.mycanvas.bind('<Configure>', lambda e: self.mycanvas.configure(scrollregion=self.mycanvas.bbox("all")))
+        self.bind('<Configure>', lambda e: self.mycanvas.configure(scrollregion=self.mycanvas.bbox("all")))
 
         self.myframe = Frame(self.mycanvas, bg='#1a1a1a', bd=0)
         self.mycanvas.create_window((0, 0), window=self.myframe, anchor="nw")
+        self.myframe.children
 
     # metodi
     def change_appearance_mode_event(self, newAppearanceMode: str):
         customtkinter.set_appearance_mode(newAppearanceMode)
 
+    def crea_libri(self):
+        for i in range(50):
+            # book frame
+            book = customtkinter.CTkFrame(self.myframe, corner_radius=15, fg_color='#323332',
+                                          border_width=0)
+            book.grid(row=i, column=0, columnspan=2, pady=5)
 
-# funzioni
-def submit_search():
-    query = app.query.get()
-    print("Query di ricerca: " + query)
-    print("Numero massimo di documenti: " + nMaxDoc.get())
-    print("Sentiment value: " + sentimentValue.get())
+            book.grid_columnconfigure(1, weight=1)
+            book.grid_columnconfigure(2, weight=3)
+            book.grid_columnconfigure(3, weight=1)
+            book.grid_rowconfigure((0, 1, 2), weight=1)
 
+            # creazione copertina
+            img = Image.open(IMAGE_PATH)
+            img = img.resize((100, 150), Image.ANTIALIAS)
+            img = ImageTk.PhotoImage(img)
 
-# --------- Main -----------
-if __name__ == "__main__":
-    app = App()
-    nMaxDoc = tkinter.StringVar()
-    sentimentValue = tkinter.StringVar()
+            bookCover = tkinter.Label(book, image=img)
+            bookCover.image = img
+            bookCover.grid(row=0, column=1, rowspan=3)
 
-    # inizializzazione
-    app.submitQuery.configure(command=submit_search)
-    app.sentimentValue.configure(variable=sentimentValue)
-    app.nMaxDoc.configure(textvariable=nMaxDoc)
+            # Book title
+            bookTitle = customtkinter.CTkLabel(book,
+                                               text="Padre ricco, Padre povero",
+                                               text_color='#1e538c',
+                                               font=(None, 20),
+                                               corner_radius=8)
+            bookTitle.grid(row=0, column=2)
 
-    for i in range(50):
-        # book frame
-        globals()[f"book{i}"] = customtkinter.CTkFrame(app.myframe, corner_radius=15, fg_color='#323332',
-                                                       border_width=0)
-        globals()[f"book{i}"].grid(row=i, column=0, columnspan=2, pady=5)
+            # Review
+            review = customtkinter.CTkTextbox(book, width=620, height=150)
+            review.grid(row=1, column=2, rowspan=2)
+            review.insert("0.0",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu libero in neque blandit pulvinar euismod sed risus. Quisque porttitor magna nulla, ac ultricies justo sagittis a. Duis eget mauris eu elit commodo lacinia sed sit amet lectus. Nulla facilisis felis sit amet est eleifend, id sodales eros hendrerit. Maecenas eros velit, elementum eget pellentesque vel, ullamcorper in justo. Aliquam maximus, lectus et imperdiet consequat, turpis dui fermentum velit, et cursus nisi diam eu ligula. Nulla lacinia molestie odio eu maximus. Mauris a augue at orci consectetur dapibus. Mauris lorem erat, aliquam eu volutpat a, accumsan eget ligula. Nullam eu semper massa, non accumsan ligula.")  # insert at line 0 character 0
+            review.configure(state="disabled")
 
-        globals()[f"book{i}"].grid_columnconfigure(1, weight=1)
-        globals()[f"book{i}"].grid_columnconfigure(2, weight=3)
-        globals()[f"book{i}"].grid_columnconfigure(3, weight=1)
-        globals()[f"book{i}"].grid_rowconfigure((0, 1, 2), weight=1)
+            # Sentiment
+            sentiment = customtkinter.CTkLabel(book,
+                                               text="Negative",
+                                               text_color='black',
+                                               fg_color=("red"),
+                                               corner_radius=8)
+            # recensione.place(relx=0.5, rely=0.5, anchor=tkinter.N)
+            sentiment.grid(row=1, column=3)
 
-        # creazione copertina
-        img = Image.open("media/book_image.jpg")
-        img = img.resize((100, 150), Image.ANTIALIAS)
-        img = ImageTk.PhotoImage(img)
-
-        bookCover = tkinter.Label(globals()[f"book{i}"], image=img)
-        bookCover.image = img
-        bookCover.grid(row=0, column=1, rowspan=3)
-
-        # Book title
-        bookTitle = customtkinter.CTkLabel(globals()[f"book{i}"],
-                                           text="Padre ricco, Padre povero",
-                                           text_color='#1e538c',
-                                           font=(None, 20),
-                                           corner_radius=8)
-        bookTitle.grid(row=0, column=2)
-
-        # Review
-        review = customtkinter.CTkTextbox(globals()[f"book{i}"], width=620, height=150)
-        review.grid(row=1, column=2, rowspan=2)
-        review.insert("0.0",
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu libero in neque blandit pulvinar euismod sed risus. Quisque porttitor magna nulla, ac ultricies justo sagittis a. Duis eget mauris eu elit commodo lacinia sed sit amet lectus. Nulla facilisis felis sit amet est eleifend, id sodales eros hendrerit. Maecenas eros velit, elementum eget pellentesque vel, ullamcorper in justo. Aliquam maximus, lectus et imperdiet consequat, turpis dui fermentum velit, et cursus nisi diam eu ligula. Nulla lacinia molestie odio eu maximus. Mauris a augue at orci consectetur dapibus. Mauris lorem erat, aliquam eu volutpat a, accumsan eget ligula. Nullam eu semper massa, non accumsan ligula.")  # insert at line 0 character 0
-        review.configure(state="disabled")
-
-        # Sentiment
-        sentiment = customtkinter.CTkLabel(globals()[f"book{i}"],
-                                           text="Negative",
-                                           text_color='black',
-                                           fg_color=("red"),
-                                           corner_radius=8)
-        # recensione.place(relx=0.5, rely=0.5, anchor=tkinter.N)
-        sentiment.grid(row=1, column=3)
-
-    app.mainloop()
+    def submit_search(self):
+        query = self.query.get()
+        print("Query di ricerca: " + query)
+        # print("Numero massimo di documenti: " + nMaxDoc.get())
+        # print("Sentiment value: " + sentimentValue.get())

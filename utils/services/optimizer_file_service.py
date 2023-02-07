@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import csv
 import sys
 from typing import Callable
@@ -5,7 +7,8 @@ from typing import Callable
 from utils.models.DocumentModel import DocumentModel, FIELDS
 
 
-def optimize_file(old_file_path:str,new_file_path:str,parse_object:Callable[[dict],DocumentModel],n_documents: int | None = None) :
+def optimize_file(old_file_path: str, new_file_path: str, parse_object: Callable[[dict], DocumentModel],
+                  n_documents: int | None = None):
     with open(old_file_path, newline='') as file_old:
         with open(new_file_path, 'w', newline='') as file_new:
             writer = csv.DictWriter(file_new, fieldnames=FIELDS)

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import TypedDict
 
 
@@ -15,10 +17,12 @@ class DocumentModel(TypedDict):
     neutral_sentiment: float
     positive_sentiment: float
 
+
 FIELDS = list(DocumentModel.__annotations__.keys())
 
+
 def from_dirty_to_document_model(item) -> DocumentModel | None:
-    if not is_valid(item) :
+    if not is_valid(item):
         return None
     else:
         return {
@@ -34,5 +38,7 @@ def from_dirty_to_document_model(item) -> DocumentModel | None:
             "title_book": item["Title"],
         }
 
-def is_valid(item:dict)->bool :
-    return item["Id"] != "" and item["User_id"] != "" and item["Title"] != "" and item["review/text"] != "" and item["review/score"] != "" and item["Price"] != ""
+
+def is_valid(item: dict) -> bool:
+    return item["Id"] != "" and item["User_id"] != "" and item["Title"] != "" and item["review/text"] != "" and item[
+        "review/score"] != "" and item["Price"] != ""
