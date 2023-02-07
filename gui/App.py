@@ -134,33 +134,59 @@ class App(customtkinter.CTk):
         self.book = customtkinter.CTkFrame(self.my_frame, corner_radius=15, fg_color='#323332',border_width=0)
         self.book.grid(row=riga, column=0, columnspan=2, pady=5)
 
-        self.book.grid_columnconfigure(1, weight=1)
-        self.book.grid_columnconfigure(2, weight=3)
-        self.book.grid_columnconfigure(3, weight=1)
+        self.book.grid_columnconfigure((0, 1, 2), weight=1)
         self.book.grid_rowconfigure((0, 1, 2), weight=1)
 
         # Book title
-        book_title = customtkinter.CTkLabel(self.book,
+        self.book_title = customtkinter.CTkLabel(self.book,
                                             text=document["title_book"],
                                             text_color='#1e538c',
                                             font=(None, 20),
                                             corner_radius=8)
-        book_title.grid(row=0, column=0)
+        self.book_title.grid(row=0, column=0)
+        self.book_title.place(relx=0, rely=0)
+
+        # Data review
+        self.data_review = customtkinter.CTkLabel(self.book,
+                                            text=document["date"],
+                                            text_color='#1e538c',
+                                            font=(None, 20),
+                                            corner_radius=8)
+        self.data_review.grid(row=0, column=2)
+
+        # Review Title
+        title_score = document["title"]+", Score:"+str(document["score"])
+
+        self.review_title = customtkinter.CTkLabel(self.book,
+                                            text=title_score,
+                                            font=("bold", 15),
+                                            anchor=NW,
+                                            corner_radius=8)
+        self.review_title.grid(row=1, column=0)
 
         # Review
-        review = customtkinter.CTkTextbox(self.book, width=620, height=150)
-        review.grid(row=1, column=0, rowspan=2)
-        review.insert("0.0",document["text"])  # insert at line 0 character 0
-        review.configure(state="disabled")
+        self.review = customtkinter.CTkTextbox(self.book, width=620, height=150)
+        self.review.grid(row=2, column=0)
+        self.review.insert("0.0",document["text"][:300])  # insert at line 0 character 0
+        self.review.configure(state="disabled")
+
+        # Review Author
+        self.review_author = customtkinter.CTkLabel(self.book,
+                                            text=document["name_user"],
+                                            text_color='#1e538c',
+                                            font=(None, 10),
+                                            anchor='w',
+                                            corner_radius=8)
+        self.review_author.grid(row=3, column=0)
 
         # Sentiment
-        sentiment = customtkinter.CTkLabel(self.book,
+        self.sentiment = customtkinter.CTkLabel(self.book,
                                             text=document["negative_sentiment"],
                                             text_color='black',
                                             fg_color=("red"),
                                             corner_radius=8)
         # recensione.place(relx=0.5, rely=0.5, anchor=tkinter.N)
-        sentiment.grid(row=1, column=3)
+        self.sentiment.grid(row=1, column=2)
 
         self.open_book_info = customtkinter.CTkButton(self.book,
                                                     width=120,
@@ -180,7 +206,7 @@ class App(customtkinter.CTk):
         index_manager.initialize_index()
 
         index=0
-        query_results = index_manager.search_index(query,"text")
+        query_results = index_manager.search_index('text:"book"',"text")
         
         for i in query_results:
             self.crea_libro(index, i)
