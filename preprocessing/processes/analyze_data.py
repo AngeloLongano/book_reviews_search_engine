@@ -23,4 +23,4 @@ def add_sentimental_analysis(item):
 def analyze_data():
     print("Inizio sentimental analysis sui dati...")
     optimize_file(old_file_path=OPTIMIZED_DATA_PATH, new_file_path=ANALYZED_DATA_PATH,
-                  parse_object=add_sentimental_analysis, n_documents=100)
+                  parse_object=add_sentimental_analysis, n_documents=10)

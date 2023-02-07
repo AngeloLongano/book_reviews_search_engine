@@ -29,26 +29,33 @@ class MangeReviewIndex:
         #quando si inizializza il QueryParser,il primo campo sarebbe il campo di default per la ricerca
         query_parser = QueryParser(self.default_field, schema=MangeReviewIndex.schema)
         query_parsed = query_parser.parse(query)
-
+        results = []
         with self.ix.searcher(weighting=scoring.TF_IDF()) as searcher:
             query_results = searcher.search(query_parsed,sortedby="date",reverse=True)
             print("ricerca...")
             print("----------RESULTS-----------")
             print("Scored results: ",query_results.scored_length())
             print("Total estimated results between: ",query_results.estimated_min_length(),"and",query_results.estimated_length())
-            
+
             for result in query_results:
+                document = {}
                 for i in result:
+                    document[i]=result[i]
+                    '''
                     if i == "text":
                         print(i+": ",result[i][:300]+"...")
                     else:
                         print(i+": ",result[i])
-                
+                    '''
+                results.append(document)
+                '''
                 print(result[field],"\n")
                 print(result.highlights(field))
-                
                 print("\n")
                 print("\n")
+                '''
+
+        return results
     
     def writer_function(self):
         writer = self.ix.writer()

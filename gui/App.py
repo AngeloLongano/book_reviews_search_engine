@@ -1,15 +1,22 @@
 import tkinter
 from tkinter import *
-
 import customtkinter
 from PIL import ImageTk, Image
-
+from utils.models.DocumentModel import DocumentModel
+from utils.ManageReviewIndex import MangeReviewIndex
 from utils.services.path_used_service import IMAGE_PATH
 
 
 def change_appearance_mode_event(new_mode: str):
     customtkinter.set_appearance_mode(new_mode)
 
+class ToplevelWindow(customtkinter.CTkToplevel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.geometry("400x300")
+
+        self.label = customtkinter.CTkLabel(self, text="ToplevelWindow")
+        self.label.pack(padx=20, pady=20)
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -94,7 +101,7 @@ class App(customtkinter.CTk):
                                               border_width=0)
         self.results.grid(row=1, column=1, rowspan=4, columnspan=2)
 
-        self.my_canvas = Canvas(self.results, width=800, height=450, bg='#1a1a1a', bd=0)
+        self.my_canvas = Canvas(self.results, width=800, height=450, bg='#1a1a1a', bd=0, highlightthickness=0)
         self.my_canvas.pack(side=LEFT, fill="y")
 
         self.yscroll = customtkinter.CTkScrollbar(self.results, orientation="vertical", command=self.my_canvas.yview,
@@ -108,55 +115,67 @@ class App(customtkinter.CTk):
         self.my_canvas.create_window((0, 0), window=self.my_frame, anchor="nw")
         self.my_frame.children
 
+    def open_book_model(self):
+        self.toplevel_window = ToplevelWindow(self)  # create window if its None or destroyed
+
     # metodi
+    def crea_libro(self, riga, document: DocumentModel):
+        # book frame
+        self.book = customtkinter.CTkFrame(self.my_frame, corner_radius=15, fg_color='#323332',border_width=0)
+        self.book.grid(row=riga, column=0, columnspan=2, pady=5)
 
-    def crea_libri(self):
-        for i in range(50):
-            # book frame
-            book = customtkinter.CTkFrame(self.my_frame, corner_radius=15, fg_color='#323332',
-                                          border_width=0)
-            book.grid(row=i, column=0, columnspan=2, pady=5)
+        self.book.grid_columnconfigure(1, weight=1)
+        self.book.grid_columnconfigure(2, weight=3)
+        self.book.grid_columnconfigure(3, weight=1)
+        self.book.grid_rowconfigure((0, 1, 2), weight=1)
 
-            book.grid_columnconfigure(1, weight=1)
-            book.grid_columnconfigure(2, weight=3)
-            book.grid_columnconfigure(3, weight=1)
-            book.grid_rowconfigure((0, 1, 2), weight=1)
+        # Book title
+        book_title = customtkinter.CTkLabel(self.book,
+                                            text=document["title_book"],
+                                            text_color='#1e538c',
+                                            font=(None, 20),
+                                            corner_radius=8)
+        book_title.grid(row=0, column=0)
 
-            # creazione copertina
-            img = Image.open(IMAGE_PATH)
-            img = img.resize((100, 150), Image.ANTIALIAS)
-            img = ImageTk.PhotoImage(img)
+        # Review
+        review = customtkinter.CTkTextbox(self.book, width=620, height=150)
+        review.grid(row=1, column=2, rowspan=2)
+        review.insert("0.0",document["text"])  # insert at line 0 character 0
+        review.configure(state="disabled")
 
-            book_cover = tkinter.Label(book, image=img)
-            book_cover.image = img
-            book_cover.grid(row=0, column=1, rowspan=3)
+        # Sentiment
+        sentiment = customtkinter.CTkLabel(self.book,
+                                            text=document["negative_sentiment"],
+                                            text_color='black',
+                                            fg_color=("red"),
+                                            corner_radius=8)
+        # recensione.place(relx=0.5, rely=0.5, anchor=tkinter.N)
+        sentiment.grid(row=1, column=3)
 
-            # Book title
-            book_title = customtkinter.CTkLabel(book,
-                                                text="Padre ricco, Padre povero",
-                                                text_color='#1e538c',
-                                                font=(None, 20),
-                                                corner_radius=8)
-            book_title.grid(row=0, column=2)
+        self.open_book_info = customtkinter.CTkButton(self.book,
+                                                    width=120,
+                                                    height=32,
+                                                    command= self.open_book_model,
+                                                    border_width=0,
+                                                    corner_radius=8,
+                                                    text="Ricerca")
+        self.open_book_info.grid(row=1, column=4, padx=0, pady=(10, 20))
 
-            # Review
-            review = customtkinter.CTkTextbox(book, width=620, height=150)
-            review.grid(row=1, column=2, rowspan=2)
-            review.insert("0.0",
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu libero in neque blandit pulvinar euismod sed risus. Quisque porttitor magna nulla, ac ultricies justo sagittis a. Duis eget mauris eu elit commodo lacinia sed sit amet lectus. Nulla facilisis felis sit amet est eleifend, id sodales eros hendrerit. Maecenas eros velit, elementum eget pellentesque vel, ullamcorper in justo. Aliquam maximus, lectus et imperdiet consequat, turpis dui fermentum velit, et cursus nisi diam eu ligula. Nulla lacinia molestie odio eu maximus. Mauris a augue at orci consectetur dapibus. Mauris lorem erat, aliquam eu volutpat a, accumsan eget ligula. Nullam eu semper massa, non accumsan ligula.")  # insert at line 0 character 0
-            review.configure(state="disabled")
-
-            # Sentiment
-            sentiment = customtkinter.CTkLabel(book,
-                                               text="Negative",
-                                               text_color='black',
-                                               fg_color=("red"),
-                                               corner_radius=8)
-            # recensione.place(relx=0.5, rely=0.5, anchor=tkinter.N)
-            sentiment.grid(row=1, column=3)
 
     def submit_search(self):
         query = self.query.get()
         print("Query di ricerca: " + query)
+
+        index_manager = MangeReviewIndex()
+        index_manager.initialize_index()
+
+        index=0
+        query_results = index_manager.search_index(query,"text")
+        
+        for i in query_results:
+            self.crea_libro(index, i)
+            index+=1
         # print("Numero massimo di documenti: " + num_max_docs.get())
         # print("Sentiment value: " + sentiment_value.get())
+
+    

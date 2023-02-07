@@ -1,9 +1,9 @@
 import tkinter
-
 import customtkinter
-
+from utils.ManageReviewIndex import MangeReviewIndex
 from gui.App import App
 from preprocessing.main_preprocessing import preprocessing
+
 
 if __name__ == "__main__":
     preprocessing()
@@ -19,6 +19,5 @@ if __name__ == "__main__":
     app.submit_query.configure(command=app.submit_search)
     app.sentiment_value.configure(variable=sentimentValue)
     app.num_max_docs.configure(textvariable=num_max_docs)
-    app.crea_libri()
 
     app.mainloop()
