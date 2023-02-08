@@ -2,6 +2,7 @@ import csv
 import os
 import sys
 from datetime import datetime
+from decimal import Decimal
 
 from utils.ManageReviewIndex import MangeReviewIndex
 from utils.services.time_decorator import time_function
@@ -33,16 +34,16 @@ def create_index():
 
             review = {
                 **item,
-                "score": float(item["score"]),
-                "price_book": float(item["price_book"]),
-                "negative_sentiment": float(item["negative_sentiment"]),
-                "neutral_sentiment": float(item["neutral_sentiment"]),
-                "positive_sentiment": float(item["positive_sentiment"]),
+                "score": int(float(item["score"])),
+                "price_book": Decimal(item["price_book"]),
+                "negative_sentiment": Decimal(item["negative_sentiment"]),
+                "neutral_sentiment": Decimal(item["neutral_sentiment"]),
+                "positive_sentiment": Decimal(item["positive_sentiment"]),
 
                 "date": datetime.fromtimestamp(int(item["date"])),
 
             }
-
+            print(review)
             # aggiunta del documento all'index
             index_manager_functions["add_document"](**review)
         index_manager_functions["save_document"]()

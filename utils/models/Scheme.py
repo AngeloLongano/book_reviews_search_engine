@@ -12,9 +12,9 @@ class ReviewScheme(SchemaClass):
     score=NUMERIC(stored=True,sortable=True)
 
     id_book=ID(stored=True)
-    price_book=NUMERIC(stored=True,sortable=True)
+    price_book=NUMERIC(stored=True,sortable=True,decimal_places=2)
     title_book=TEXT(analyzer=StemmingAnalyzer(),phrase=True,stored=True)
 
-    negative_sentiment=NUMERIC(stored=True,sortable=True)
-    neutral_sentiment=NUMERIC(stored=True,sortable=True)
-    positive_sentiment= NUMERIC(stored=True,sortable=True)
+    negative_sentiment=NUMERIC(stored=True,sortable=True,decimal_places=4)
+    neutral_sentiment=NUMERIC(stored=True,sortable=True,decimal_places=4)
+    positive_sentiment= NUMERIC(stored=True,sortable=True,decimal_places=4)

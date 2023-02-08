@@ -25,13 +25,13 @@ class MangeReviewIndex:
         else:
             self.ix = index.open_dir(self.index_directory_path)
     
-    def search_index(self,query,field):
+    def search_index(self,query,field,sentiment,max_results,reversed_sort,sort_by):
         #quando si inizializza il QueryParser,il primo campo sarebbe il campo di default per la ricerca
-        query_parser = QueryParser(self.default_field, schema=MangeReviewIndex.schema)
+        query_parser = QueryParser(self.default_field, schema=MangeReviewIndex.schema)                 
         query_parsed = query_parser.parse(query)
         results = []
         with self.ix.searcher(weighting=scoring.TF_IDF()) as searcher:
-            query_results = searcher.search(query_parsed,sortedby="date",reverse=True)
+            query_results = searcher.search(query_parsed,sortedby=sort_by,reverse=reversed_sort)
             print("ricerca...")
             print("----------RESULTS-----------")
             print("Scored results: ",query_results.scored_length())
@@ -41,19 +41,19 @@ class MangeReviewIndex:
                 document = {}
                 for i in result:
                     document[i]=result[i]
-                    '''
+                    
                     if i == "text":
                         print(i+": ",result[i][:300]+"...")
                     else:
                         print(i+": ",result[i])
-                    '''
+                    
                 results.append(document)
                 '''
                 print(result[field],"\n")
                 print(result.highlights(field))
-                print("\n")
-                print("\n")
                 '''
+                print("\n")
+                print("\n")
 
         return results
     

@@ -67,7 +67,7 @@ class App(customtkinter.CTk):
         self.sort_by_label = customtkinter.CTkLabel(self.left_side_bar, text="Sort by:",anchor="w")
         self.sort_by_label.grid(row=5, column=0)
 
-        self.sort_by = customtkinter.CTkOptionMenu(self.left_side_bar, values=["Price", "Negative", "Neutral", "Positive", "Score", "Data"], )
+        self.sort_by = customtkinter.CTkOptionMenu(self.left_side_bar, values=["Price", "Negative", "Neutral", "Positive", "Score", "Date"], )
         self.sort_by.grid(row=6, column=0, padx=20, pady=10)
 
         self.reverse = customtkinter.CTkSwitch(master=self.left_side_bar, text="Reverse Sort", onvalue="on", offvalue="off")
@@ -213,6 +213,13 @@ class App(customtkinter.CTk):
         reverse = self.reverse.get()
         num_max_docs = self.num_max_docs.get()
         sentiment_value = self.sentiment_value.get()
+        sorted_by = self.sort_by.get()
+        
+        sort_name_corrispondence = {"Price":"price_book", "Negative":"negative_sentiment", "Neutral":"neutral_sentiment", "Positive":"positive_sentiment", "Score":"score", "Date":"date"}
+        if reverse == "off":
+            reverse = 0
+        else:
+            reverse = 1
 
         print("parametri: ",query,reverse,num_max_docs,sentiment_value)
 
@@ -220,7 +227,7 @@ class App(customtkinter.CTk):
         index_manager.initialize_index()
 
         index=0
-        query_results = index_manager.search_index(query,"text")
+        query_results = index_manager.search_index(query,"text",sentiment_value,num_max_docs,reverse,sort_name_corrispondence[sorted_by])
         
         for i in query_results:
             self.crea_libro(index, i)
