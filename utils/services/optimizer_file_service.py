@@ -4,16 +4,17 @@ import csv
 import sys
 from typing import Callable
 
-from utils.models.DocumentModel import DocumentModel, FIELDS
+from utils.helpers.DocumentHelper import DocumentHelper
+from utils.models.DocumentModel import DocumentModel
 from utils.services.time_decorator import time_function
 
 
 @time_function
-def optimize_file(old_file_path: str, new_file_path: str, parse_object: Callable[[dict], DocumentModel],
+def optimize_file(old_file_path: str, new_file_path: str, parse_object: Callable[[dict], DocumentModel | None],
                   n_documents: int | None = None):
     with open(old_file_path, newline='') as file_old:
         with open(new_file_path, 'w', newline='') as file_new:
-            writer = csv.DictWriter(file_new, fieldnames=FIELDS)
+            writer = csv.DictWriter(file_new, fieldnames=DocumentHelper.fields)
             writer.writeheader()
             # lettura file csv
             reader = csv.DictReader(file_old)

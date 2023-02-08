@@ -23,6 +23,14 @@ Per eseguire una ricerca:
 
     python3 search_index.py
 
+## Per eseguire i test
+
+    python -m unittest -v .\tests\test_name.py
+    
+    python -m unittest -v .\tests\test_parse_data.py
+
+
+
 #### N.B. : Assicurarsi di aver installato tutti i moduli esterni
 __Utilizzare python 3.9__
 
