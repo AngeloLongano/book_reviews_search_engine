@@ -17,7 +17,7 @@ class DocumentHelper:
                 "date": item["review/time"],
                 "title": item["review/summary"],
                 "text": item["review/text"],
-                "score": int(float(item["review/score"])),  # TODO: Provare a togliere il float
+                "score": int(float(item["review/score"])),
 
                 "id_book": item["Id"],
                 "price_book": Decimal(item["Price"]),

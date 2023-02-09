@@ -28,8 +28,7 @@ def create_index():
         for item in data:
             sys.stdout.write("\r\tDocumenti indicizzati %i" % index)
             sys.stdout.flush()
-            if index == 10:
-                break
+
             index += 1
 
             review = {
