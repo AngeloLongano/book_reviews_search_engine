@@ -32,7 +32,7 @@ class MangeReviewIndex:
         query_parsed = query_parser.parse(query)
         results = []
         with self.ix.searcher(weighting=scoring.TF_IDF()) as searcher:
-            query_results = searcher.search(query_parsed,sortedby=sort_by,reverse=reversed_sort,limit=max_results)
+            query_results = searcher.search(query_parsed,sortedby=sort_by,reverse=reversed_sort,limit=max_results*2)
             print("ricerca...")
             print("----------RESULTS-----------")
             print("Scored results: ",query_results.scored_length())
@@ -41,7 +41,8 @@ class MangeReviewIndex:
             
 
             for result in query_results:
-
+                if len(results) >= max_results:
+                    break
                 if sentiment!="None":
                     result_sentiments={"negative_sentiment":result["negative_sentiment"],"neutral_sentiment":result["neutral_sentiment"],"positive_sentiment":result["positive_sentiment"]}
                     sorted_sentiments=sorted(result_sentiments.items(), key=lambda x:x[1],reverse=True)
@@ -56,6 +57,8 @@ class MangeReviewIndex:
                             print(i+": ",result[i])
                         
                     results.append(document)
+                    
+
                 '''
                 print(result[field],"\n")
                 print(result.highlights(field))
