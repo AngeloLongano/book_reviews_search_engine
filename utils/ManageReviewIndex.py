@@ -26,28 +26,36 @@ class MangeReviewIndex:
             self.ix = index.open_dir(self.index_directory_path)
     
     def search_index(self,query,field,sentiment,max_results,reversed_sort,sort_by):
+
         #quando si inizializza il QueryParser,il primo campo sarebbe il campo di default per la ricerca
         query_parser = QueryParser(self.default_field, schema=MangeReviewIndex.schema)                 
         query_parsed = query_parser.parse(query)
         results = []
         with self.ix.searcher(weighting=scoring.TF_IDF()) as searcher:
-            query_results = searcher.search(query_parsed,sortedby=sort_by,reverse=reversed_sort)
+            query_results = searcher.search(query_parsed,sortedby=sort_by,reverse=reversed_sort,limit=max_results)
             print("ricerca...")
             print("----------RESULTS-----------")
             print("Scored results: ",query_results.scored_length())
             print("Total estimated results between: ",query_results.estimated_min_length(),"and",query_results.estimated_length())
 
+            
+
             for result in query_results:
-                document = {}
-                for i in result:
-                    document[i]=result[i]
-                    
-                    if i == "text":
-                        print(i+": ",result[i][:300]+"...")
-                    else:
-                        print(i+": ",result[i])
-                    
-                results.append(document)
+
+                if sentiment!="None":
+                    result_sentiments={"negative_sentiment":result["negative_sentiment"],"neutral_sentiment":result["neutral_sentiment"],"positive_sentiment":result["positive_sentiment"]}
+                    sorted_sentiments=sorted(result_sentiments.items(), key=lambda x:x[1],reverse=True)
+                
+                if sentiment=="None" or sorted_sentiments[0][0] == sentiment:
+                    document = {}
+                    for i in result:
+                        document[i]=result[i]
+                        if i == "text":
+                            print(i+": ",result[i][:300]+"...")
+                        else:
+                            print(i+": ",result[i])
+                        
+                    results.append(document)
                 '''
                 print(result[field],"\n")
                 print(result.highlights(field))

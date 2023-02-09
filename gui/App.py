@@ -126,8 +126,8 @@ class App(customtkinter.CTk):
         #self.num_max_docs.configure(textvariable=tkinter.StringVar())
         #self.reverse.configure(variable=tkinter.BooleanVar())
 
-    def open_book_model(self):
-        self.toplevel_window = ToplevelWindow(self)  # create window if its None or destroyed
+    def open_book_model(self,document):
+        self.toplevel_window = ToplevelWindow(self,document)  # create window if its None or destroyed
 
     # metodi
     def crea_libro(self, riga, document: DocumentModel):
@@ -168,7 +168,7 @@ class App(customtkinter.CTk):
         # Review
         self.review = customtkinter.CTkTextbox(self.book, width=620, height=130)
         self.review.grid(row=2, column=0)
-        self.review.insert("0.0",document["text"][:300])  # insert at line 0 character 0
+        self.review.insert("0.0",document["text"][:300]+"...")  # insert at line 0 character 0
         self.review.configure(state="disabled")
 
         # Review Author
@@ -203,7 +203,7 @@ class App(customtkinter.CTk):
                                                     command= lambda: self.open_book_model(document),
                                                     border_width=0,
                                                     corner_radius=8,
-                                                    text="Open book info")
+                                                    text="Full review")
         self.open_book_info.grid(row=2, column=2, padx=0, pady=(10, 20))
 
          
@@ -215,11 +215,16 @@ class App(customtkinter.CTk):
         sentiment_value = self.sentiment_value.get()
         sorted_by = self.sort_by.get()
         
-        sort_name_corrispondence = {"Price":"price_book", "Negative":"negative_sentiment", "Neutral":"neutral_sentiment", "Positive":"positive_sentiment", "Score":"score", "Date":"date"}
+        sort_name_corrispondence = {"Price":"price_book", "Negative":"negative_sentiment", "Neutral":"neutral_sentiment", "Positive":"positive_sentiment", "Score":"score", "Date":"date","None":"None"}
         if reverse == "off":
             reverse = 0
         else:
             reverse = 1
+        
+        if num_max_docs == "" or num_max_docs <= "0":
+            num_max_docs=10
+        else:
+            num_max_docs = int(num_max_docs)
 
         print("parametri: ",query,reverse,num_max_docs,sentiment_value)
 
@@ -227,7 +232,7 @@ class App(customtkinter.CTk):
         index_manager.initialize_index()
 
         index=0
-        query_results = index_manager.search_index(query,"text",sentiment_value,num_max_docs,reverse,sort_name_corrispondence[sorted_by])
+        query_results = index_manager.search_index(query,"text",sort_name_corrispondence[sentiment_value],num_max_docs,reverse,sort_name_corrispondence[sorted_by])
         
         for i in query_results:
             self.crea_libro(index, i)
