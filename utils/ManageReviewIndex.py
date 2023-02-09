@@ -55,14 +55,14 @@ class MangeReviewIndex:
                             print(i+": ",result[i][:300]+"...")
                         else:
                             print(i+": ",result[i])
-                        
+                    document["highlights"] = result.highlights(field) 
                     results.append(document)
                     
 
-                '''
+                
                 print(result[field],"\n")
                 print(result.highlights(field))
-                '''
+                
                 print("\n")
                 print("\n")
 
