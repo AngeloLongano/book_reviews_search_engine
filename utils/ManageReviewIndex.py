@@ -31,7 +31,7 @@ class MangeReviewIndex:
         query_parser = QueryParser(self.default_field, schema=MangeReviewIndex.schema)                 
         query_parsed = query_parser.parse(query)
         results = []
-        with self.ix.searcher(weighting=scoring.TF_IDF()) as searcher:
+        with self.ix.searcher(weighting=scoring.BM25F()) as searcher:
             query_results = searcher.search(query_parsed,sortedby=sort_by,reverse=reversed_sort,limit=max_results*2)
             print("ricerca...")
             print("----------RESULTS-----------")
