@@ -5,7 +5,7 @@ from gui.top_level_window import ToplevelWindow
 from utils.models.DocumentModel import DocumentModel
 from utils.ManageReviewIndex import MangeReviewIndex
 from utils.services.path_used_service import IMAGE_PATH
-
+import html2text
 
 def change_appearance_mode_event(new_mode: str):
     customtkinter.set_appearance_mode(new_mode)
@@ -169,7 +169,8 @@ class App(customtkinter.CTk):
         # Review
         self.review = customtkinter.CTkTextbox(self.book, width=620, height=130)
         self.review.grid(row=2, column=0)
-        self.review.insert("0.0",document["text"][:300]+"...")  # insert at line 0 character 0
+        text_highlights = html2text.html2text(document["highlights"])
+        self.review.insert("0.0",text_highlights)  # insert at line 0 character 0
         self.review.configure(state="disabled")
 
         # Review Author
@@ -228,7 +229,7 @@ class App(customtkinter.CTk):
         else:
             num_max_docs = int(num_max_docs)
 
-        print("parametri: ",query,reverse,num_max_docs,sentiment_value)
+        print("parametri: ","query:",query,"reverse:",reverse,"num max docs:",num_max_docs,"sentiment:",sentiment_value,"soretd by:",sorted_by)
 
         index_manager = MangeReviewIndex()
         index_manager.initialize_index()
