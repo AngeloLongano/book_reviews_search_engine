@@ -5,20 +5,26 @@ from utils.services.path_used_service import is_there_optimized_data, is_there_a
 
 
 def preprocessing():
-    print("PREPROCESSING:")
+    if is_there_index_dir():
+        print("PREPROCESSING: already DONE.")
+        return
 
+    print("PREPROCESSING:")
     if not is_there_optimized_data():
         optimize_data()
-    print("DATI OTTIMIZZATI")
-
-    if not is_there_analyzed_data():
+        print("OPTIMIZE DATA: done!")
         analyze_data()
+        print("SENTIMENTAL ANALYSIS: done")
+    else:
+        print("OPTIMIZE DATA: already done!")
+        if not is_there_analyzed_data():
+            analyze_data()
+            print("SENTIMENTAL ANALYSIS: done")
+        else:
+            print("SENTIMENTAL ANALYSIS: already done!")
 
-    print("SENTIMENTAL ANALYSIS FATTA")
 
-    if is_there_index_dir():
-        create_index()
-
-    print("INDICE CREATO")
+    create_index()
+    print("INDEX CREATED")
 
 

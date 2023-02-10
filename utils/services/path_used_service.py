@@ -21,4 +21,4 @@ def is_there_index_dir() -> bool:
     if not os.path.isdir(INDEX_DIR_PATH):
         print("Creata cartella indice")
         os.makedirs(INDEX_DIR_PATH)
-    return len(os.listdir(INDEX_DIR_PATH)) == 0
+    return len(os.listdir(INDEX_DIR_PATH)) != 0
