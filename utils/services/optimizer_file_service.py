@@ -6,10 +6,8 @@ from typing import Callable
 
 from utils.helpers.DocumentHelper import DocumentHelper
 from utils.models.DocumentModel import DocumentModel
-from utils.services.time_decorator import time_function
 
 
-@time_function
 def optimize_file(old_file_path: str, new_file_path: str, parse_object: Callable[[dict], DocumentModel | None],
                   n_documents: int | None = None):
     with open(old_file_path, newline='') as file_old:

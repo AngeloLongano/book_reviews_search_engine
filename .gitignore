@@ -7,4 +7,19 @@ processed_data/books_rating_with_sentimental.csv
 cardiffnlp
 index
 __pycache__
+
+# .idea
 .idea
+/.idea
+.idea/*
+.idea/workspace.xml
+.idea/vcs.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/other.xml
+.idea/inspectionProfiles
+.idea/shelf
+.idea/BookReviewsSearchEngine.iml
+
+
+

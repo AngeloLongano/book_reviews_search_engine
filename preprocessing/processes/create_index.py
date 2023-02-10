@@ -5,13 +5,12 @@ from datetime import datetime
 from decimal import Decimal
 
 from utils.ManageReviewIndex import MangeReviewIndex
-from utils.services.time_decorator import time_function
+from utils.services.time_decorator import long_time_function
 
 # path per il file books_ratings.csv
 data_path = os.getcwd() + "/processed_data/books_rating_with_sentimental.csv"
 
-
-@time_function
+@long_time_function
 def create_index():
     # dichiarazione della variabile ix per accedere all'index
     index_manager = MangeReviewIndex()
@@ -42,7 +41,7 @@ def create_index():
                 "date": datetime.fromtimestamp(int(item["date"])),
 
             }
-            print(review)
+            # print(review)
             # aggiunta del documento all'index
             index_manager_functions["add_document"](**review)
         index_manager_functions["save_document"]()

@@ -1,6 +1,5 @@
-import tkinter
 import customtkinter
-from utils.ManageReviewIndex import MangeReviewIndex
+
 from gui.App import App
 from preprocessing.main_preprocessing import preprocessing
 

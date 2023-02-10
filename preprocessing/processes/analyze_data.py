@@ -2,6 +2,7 @@ from utils.models.DocumentModel import DocumentModel
 from utils.services.optimizer_file_service import optimize_file
 from utils.services.path_used_service import OPTIMIZED_DATA_PATH, ANALYZED_DATA_PATH
 from utils.services.sentimental_analysis_service import sentiment, initialize_sentiment_model
+from utils.services.time_decorator import long_time_function
 
 # ottengo le 3 variabili che servono per la sentimenti analysis [tokenizer,model,config]
 model_variables = initialize_sentiment_model()
@@ -20,7 +21,7 @@ def add_sentimental_analysis(item:DocumentModel)-> DocumentModel:
         "positive_sentiment": sentiment_analysis["positive"],
     }
 
-
+@long_time_function
 def analyze_data():
     print("Inizio sentimental analysis sui dati...")
     optimize_file(old_file_path=OPTIMIZED_DATA_PATH, new_file_path=ANALYZED_DATA_PATH,
