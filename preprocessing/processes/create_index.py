@@ -5,7 +5,7 @@ from datetime import datetime
 from decimal import Decimal
 
 from utils.ManageReviewIndex import MangeReviewIndex
-from utils.services.time_decorator import time_function, long_time_function
+from utils.services.time_decorator import long_time_function
 
 # path per il file books_ratings.csv
 data_path = os.getcwd() + "/processed_data/books_rating_with_sentimental.csv"

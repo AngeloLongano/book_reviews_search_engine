@@ -1,11 +1,11 @@
-import tkinter
 from tkinter import *
 import customtkinter
-from gui.top_level_window import ToplevelWindow
-from utils.models.DocumentModel import DocumentModel
-from utils.ManageReviewIndex import MangeReviewIndex
-from utils.services.path_used_service import IMAGE_PATH
 import html2text
+
+from gui.top_level_window import ToplevelWindow
+from utils.ManageReviewIndex import MangeReviewIndex
+from utils.models.DocumentModel import DocumentModel
+
 
 def change_appearance_mode_event(new_mode: str):
     customtkinter.set_appearance_mode(new_mode)

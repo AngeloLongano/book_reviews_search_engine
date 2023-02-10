@@ -1,6 +1,9 @@
-import tkinter
 from tkinter import *
 import customtkinter
+from tkinter import *
+
+import customtkinter
+
 
 class ToplevelWindow(customtkinter.CTkToplevel):
 
