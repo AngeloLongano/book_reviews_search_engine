@@ -35,5 +35,4 @@ Per eseguire una ricerca:
 __Utilizzare python 3.9__
 
 _lista moduli:_
-
-    {}
+    https://github.com/AngeloLonganoUni/BookReviewsSearchEngine/blob/master/requirements.txt
