@@ -74,12 +74,14 @@ class App(customtkinter.CTk):
         self.reverse.grid(row=7, column=0, padx=20, pady=10)
 
         # Appearance Mode
+        '''
         self.appearance_model_label = customtkinter.CTkLabel(self.left_side_bar, text="Aspetto:", anchor="w")
         self.appearance_model_label.grid(row=8, column=0)
         self.appearance_mode_menu = customtkinter.CTkOptionMenu(self.left_side_bar,
-                                                                values=["Light", "Dark", "System"],
+                                                                values=["Dark","Light","System"],
                                                                 command=change_appearance_mode_event)
         self.appearance_mode_menu.grid(row=9, column=0)
+        '''
 
         # ------------------- Right Frame ----------------------
         # input search
@@ -140,9 +142,9 @@ class App(customtkinter.CTk):
         self.book.grid_rowconfigure((0, 1, 2), weight=1)
 
         # Book title
-        my_font = customtkinter.CTkFont(size=35, weight='bold')
+        my_font = customtkinter.CTkFont(size=20, weight='bold')
         self.book_title = customtkinter.CTkLabel(self.book,
-                                            text=document["title_book"],
+                                            text=document["title_book"][:45]+"...",
                                             text_color='#1e538c',
                                             font=my_font,
                                             justify="left",

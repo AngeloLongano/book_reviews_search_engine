@@ -1,9 +1,7 @@
 import os
-
 import whoosh.index as index
 from whoosh import scoring
 from whoosh.qparser import QueryParser
-
 from utils.models.Scheme import ReviewScheme
 from utils.services.path_used_service import INDEX_DIR_PATH
 
@@ -33,9 +31,10 @@ class MangeReviewIndex:
         results = []
         with self.ix.searcher(weighting=scoring.BM25F()) as searcher:
             query_results = searcher.search(query_parsed,sortedby=sort_by,reverse=reversed_sort,limit=max_results*2)
+            query_results_scored=query_results.scored_length()
             print("ricerca...")
             print("----------RESULTS-----------")
-            print("Scored results: ",query_results.scored_length())
+            print("Scored results: ",query_results_scored)
             print("Total estimated results between: ",query_results.estimated_min_length(),"and",query_results.estimated_length())
 
             
