@@ -5,16 +5,16 @@ from gui.top_level_window import ToplevelWindow
 from utils.models.DocumentModel import DocumentModel
 from utils.ManageReviewIndex import MangeReviewIndex
 from utils.services.path_used_service import IMAGE_PATH
-
+import html2text
 
 def change_appearance_mode_event(new_mode: str):
     customtkinter.set_appearance_mode(new_mode)
 
 class App(customtkinter.CTk):
+
+    # costruttore
     def __init__(self):
         super().__init__()
-
-       
 
         # configure window
         self.title("Books Review")
@@ -126,10 +126,11 @@ class App(customtkinter.CTk):
         #self.num_max_docs.configure(textvariable=tkinter.StringVar())
         #self.reverse.configure(variable=tkinter.BooleanVar())
 
+    # info book
     def open_book_model(self,document):
         self.toplevel_window = ToplevelWindow(self,document)  # create window if its None or destroyed
 
-    # metodi
+    # metods
     def crea_libro(self, riga, document: DocumentModel):
         # book frame
         self.book = customtkinter.CTkFrame(self.my_frame, corner_radius=15, fg_color='#323332',border_width=0)
@@ -168,7 +169,8 @@ class App(customtkinter.CTk):
         # Review
         self.review = customtkinter.CTkTextbox(self.book, width=620, height=130)
         self.review.grid(row=2, column=0)
-        self.review.insert("0.0",document["text"][:300]+"...")  # insert at line 0 character 0
+        text_highlights = html2text.html2text(document["highlights"])
+        self.review.insert("0.0",text_highlights)  # insert at line 0 character 0
         self.review.configure(state="disabled")
 
         # Review Author
@@ -206,8 +208,6 @@ class App(customtkinter.CTk):
                                                     text="Full review")
         self.open_book_info.grid(row=2, column=2, padx=0, pady=(10, 20))
 
-         
-
     def submit_search(self):
         query = self.query.get()
         reverse = self.reverse.get()
@@ -215,6 +215,9 @@ class App(customtkinter.CTk):
         sentiment_value = self.sentiment_value.get()
         sorted_by = self.sort_by.get()
         
+        # remove results of previus query
+        self.delete_books()
+
         sort_name_corrispondence = {"Price":"price_book", "Negative":"negative_sentiment", "Neutral":"neutral_sentiment", "Positive":"positive_sentiment", "Score":"score", "Date":"date","None":"None"}
         if reverse == "off":
             reverse = 0
@@ -226,7 +229,7 @@ class App(customtkinter.CTk):
         else:
             num_max_docs = int(num_max_docs)
 
-        print("parametri: ",query,reverse,num_max_docs,sentiment_value)
+        print("parametri: ","query:",query,"reverse:",reverse,"num max docs:",num_max_docs,"sentiment:",sentiment_value,"soretd by:",sorted_by)
 
         index_manager = MangeReviewIndex()
         index_manager.initialize_index()
@@ -240,4 +243,8 @@ class App(customtkinter.CTk):
         # print("Numero massimo di documenti: " + num_max_docs.get())
         # print("Sentiment value: " + sentiment_value.get())
 
+    # remove book
+    def delete_books(self):
+        for child in self.my_frame.winfo_children():
+            child.destroy()
     
