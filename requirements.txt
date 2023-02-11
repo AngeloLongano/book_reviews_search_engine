@@ -1,5 +1,6 @@
-customtkinter
-html2text
-whoosh
-transformers
-torch
+customtkinter==5.0.5
+html2text==2020.1.16
+numpy==1.24.1
+scipy==1.10.0
+transformers==4.26.0
+Whoosh==2.7.4

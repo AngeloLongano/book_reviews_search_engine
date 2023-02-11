@@ -16,7 +16,7 @@ P.S. Nel caso in cui la cartella index sia già all'interno, vuol dire che l'ind
 
 ## Informazioni del progetto
 
-Sentimental Analysis fatta utilizzando il [modello cardiffnlp](https://huggingface.co/cardiffnlp/twitter-xlm-roberta-base-sentiment) preso da huggingface.com.
+Sentimental Analysis fatta utilizzando il [modello cardiffnlp](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment-latest) preso da huggingface.com.
 
 
 Per eseguire una ricerca:
@@ -34,6 +34,6 @@ Per eseguire una ricerca:
 #### N.B. : Assicurarsi di aver installato tutti i moduli esterni
 __Utilizzare python 3.9__
 
-## Per i installare i moduli esterni, eseguire il comando:
+_lista moduli:_
+ https://github.com/AngeloLonganoUni/BookReviewsSearchEngine/blob/master/requirements.txt
 
-    pip install -r requirements.txt
