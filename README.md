@@ -37,3 +37,7 @@ __Utilizzare python 3.9__
 _lista moduli:_
  https://github.com/AngeloLonganoUni/BookReviewsSearchEngine/blob/master/requirements.txt
 
+# Per installare i moduli esterni, eseguire il seguente comando:
+
+    pip install -r requirements.txt
+
