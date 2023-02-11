@@ -34,6 +34,6 @@ Per eseguire una ricerca:
 #### N.B. : Assicurarsi di aver installato tutti i moduli esterni
 __Utilizzare python 3.9__
 
-_lista moduli:_
+## Per i installare i moduli esterni, eseguire il comando:
 
-    {}
+    pip install -r requirements.txt

@@ -84,6 +84,7 @@ class MangeReviewIndex:
             corrected = s.correct_query(query_parsed, query)
             if corrected.query != query_parsed:
                 print("Did you mean:", corrected.string)
+                return corrected.string
             
         
 

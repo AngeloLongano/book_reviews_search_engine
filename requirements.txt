@@ -1,0 +1,5 @@
+customtkinter
+html2text
+whoosh
+transformers
+torch

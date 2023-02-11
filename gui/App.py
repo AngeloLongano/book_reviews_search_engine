@@ -6,10 +6,6 @@ from gui.top_level_window import ToplevelWindow
 from utils.ManageReviewIndex import MangeReviewIndex
 from utils.models.DocumentModel import DocumentModel
 
-
-def change_appearance_mode_event(new_mode: str):
-    customtkinter.set_appearance_mode(new_mode)
-
 class App(customtkinter.CTk):
 
     # costruttore
@@ -59,10 +55,6 @@ class App(customtkinter.CTk):
         self.sentiment_value.grid(row=4, column=0, padx=20, pady=10)
         self.sentiment_value.set("None")
 
-        # slider
-        #self.sentiment_slider = customtkinter.CTkSlider(master=self.left_side_bar, from_=0, to=100)
-        #self.sentiment_slider.grid(row=5, column=0, padx=20, pady=10)
-
         # Sort By
         self.sort_by_label = customtkinter.CTkLabel(self.left_side_bar, text="Sort by:",anchor="w")
         self.sort_by_label.grid(row=5, column=0)
@@ -72,16 +64,6 @@ class App(customtkinter.CTk):
 
         self.reverse = customtkinter.CTkSwitch(master=self.left_side_bar, text="Reverse Sort", onvalue="on", offvalue="off")
         self.reverse.grid(row=7, column=0, padx=20, pady=10)
-
-        # Appearance Mode
-        '''
-        self.appearance_model_label = customtkinter.CTkLabel(self.left_side_bar, text="Aspetto:", anchor="w")
-        self.appearance_model_label.grid(row=8, column=0)
-        self.appearance_mode_menu = customtkinter.CTkOptionMenu(self.left_side_bar,
-                                                                values=["Dark","Light","System"],
-                                                                command=change_appearance_mode_event)
-        self.appearance_mode_menu.grid(row=9, column=0)
-        '''
 
         # ------------------- Right Frame ----------------------
         # input search
@@ -102,10 +84,14 @@ class App(customtkinter.CTk):
                                                     text="Ricerca")
         self.submit_query.grid(row=0, column=2, padx=0, pady=(10, 20))
 
+        # number of results
+        self.results_number = customtkinter.CTkLabel(self,text="", anchor="w")
+        self.results_number.grid(row=1, column=1)
+
         # frame results
         self.results = customtkinter.CTkFrame(self, corner_radius=15, fg_color='#1a1a1a', border_color='#1a1a1a',
                                               border_width=0)
-        self.results.grid(row=1, column=1, rowspan=4, columnspan=2)
+        self.results.grid(row=2, column=1, rowspan=4, columnspan=2)
 
         self.my_canvas = Canvas(self.results, width=800, height=450, bg='#1a1a1a', bd=0, highlightthickness=0)
         self.my_canvas.pack(side=LEFT, fill="y")
@@ -123,16 +109,12 @@ class App(customtkinter.CTk):
 
         # inizializzazione
         self.submit_query.configure(command=self.submit_search)
-        #da non considerare
-        #self.sentiment_value.configure(variable=tkinter.StringVar())
-        #self.num_max_docs.configure(textvariable=tkinter.StringVar())
-        #self.reverse.configure(variable=tkinter.BooleanVar())
 
     # info book
     def open_book_model(self,document):
         self.toplevel_window = ToplevelWindow(self,document)  # create window if its None or destroyed
 
-    # metods
+    # create book
     def crea_libro(self, riga, document: DocumentModel):
         # book frame
         self.book = customtkinter.CTkFrame(self.my_frame, corner_radius=15, fg_color='#323332',border_width=0)
@@ -210,7 +192,29 @@ class App(customtkinter.CTk):
                                                     text="Full review")
         self.open_book_info.grid(row=2, column=2, padx=0, pady=(10, 20))
 
+    # print error
+    def print_error(self, query_corretta):
+        # Errore print
+        my_font = customtkinter.CTkFont(size=20, weight='bold')
+        self.error = customtkinter.CTkLabel(self.my_frame,
+                                            text="Your search returned no results in any documents.",
+                                            text_color='#1e538c',
+                                            font=my_font,
+                                            justify="left",
+                                            corner_radius=8)
+        self.error.grid(row=0, column=0, pady=20)
+
+        self.query_corretta = customtkinter.CTkLabel(self.my_frame,
+                                            text="Did you mean: "+query_corretta+"?",
+                                            text_color='#1e538c',
+                                            font=my_font,
+                                            justify="left",
+                                            corner_radius=8)
+        self.query_corretta.grid(row=1, column=0, pady=20)
+
+    # submit search
     def submit_search(self):
+        # take value from GUI
         query = self.query.get()
         reverse = self.reverse.get()
         num_max_docs = self.num_max_docs.get()
@@ -221,29 +225,36 @@ class App(customtkinter.CTk):
         self.delete_books()
 
         sort_name_corrispondence = {"Price":"price_book", "Negative":"negative_sentiment", "Neutral":"neutral_sentiment", "Positive":"positive_sentiment", "Score":"score", "Date":"date","None":"None"}
+        
+        # reverse
         if reverse == "off":
             reverse = 0
         else:
             reverse = 1
         
+        # n max documents
         if num_max_docs == "" or num_max_docs <= "0":
             num_max_docs=10
         else:
             num_max_docs = int(num_max_docs)
 
         print("parametri: ","query:",query,"reverse:",reverse,"num max docs:",num_max_docs,"sentiment:",sentiment_value,"soretd by:",sorted_by)
-
+        
         index_manager = MangeReviewIndex()
         index_manager.initialize_index()
+        query_corretta = index_manager.correct_query(query)
 
         index=0
         query_results = index_manager.search_index(query,"text",sort_name_corrispondence[sentiment_value],num_max_docs,reverse,sort_name_corrispondence[sorted_by])
-        
-        for i in query_results:
-            self.crea_libro(index, i)
-            index+=1
-        # print("Numero massimo di documenti: " + num_max_docs.get())
-        # print("Sentiment value: " + sentiment_value.get())
+
+        self.results_number.configure(text="About "+str(len(query_results))+" results")
+
+        if query_results:
+            for i in query_results:
+                self.crea_libro(index, i)
+                index+=1
+        else:
+            self.print_error(query_corretta)
 
     # remove book
     def delete_books(self):
