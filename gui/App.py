@@ -141,7 +141,7 @@ class App(customtkinter.CTk):
         self.data_review.grid(row=0, column=2, padx=5)
 
         # Review Title
-        title_score = document["title"]+", Score:"+str(document["score"])
+        title_score = document["title"][:45]+"..., Score:"+str(document["score"])
 
         self.review_title = customtkinter.CTkLabel(self.book,
                                             text=title_score,
