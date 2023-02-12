@@ -168,7 +168,7 @@ class App(customtkinter.CTk):
 
         # Review
         self.review = customtkinter.CTkTextbox(self.book, width=620, height=130)
-        self.review.grid(row=2, column=0)
+        self.review.grid(row=2, column=0, padx=(50,0))
         text_highlights = html2text.html2text(document["highlights"])
         self.review.insert("0.0", text_highlights)  # insert at line 0 character 0
         self.review.configure(state="disabled")
