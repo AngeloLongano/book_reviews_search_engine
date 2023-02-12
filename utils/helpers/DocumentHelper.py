@@ -8,8 +8,8 @@ from utils.models.DocumentModel import DocumentModel
 class DocumentHelper:
     fields = list(DocumentModel.__annotations__.keys())
 
-    @classmethod
-    def from_dirty(cls, item: dict) -> DocumentModel | None:
+    @staticmethod
+    def from_dirty(item: dict) -> DocumentModel | None:
         try:
             document = {
                 "id_user": item["User_id"],

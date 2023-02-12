@@ -1,10 +1,11 @@
-from __future__ import annotations
-
 from decimal import Decimal
 from typing import TypedDict
 
 
 class DocumentModel(TypedDict):
+    """
+
+    """
     id_user: int
     name_user: str
     date: str

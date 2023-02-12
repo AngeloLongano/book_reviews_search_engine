@@ -4,3 +4,4 @@ Whoosh
 numpy
 scipy
 transformers
+torch
