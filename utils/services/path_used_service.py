@@ -4,10 +4,9 @@ from pathlib import Path
 ORIGINAL_DATA_PATH = os.getcwd() + "/source_data/Books_rating.csv"
 OPTIMIZED_DATA_PATH = os.getcwd() + '/processed_data/books_rating.csv'
 ANALYZED_DATA_PATH = os.getcwd() + "/processed_data/books_rating_with_sentimental.csv"
+MODEL_SENTIMENT_PATH = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
 
 INDEX_DIR_PATH = os.getcwd() + "/index"
-
-IMAGE_PATH = os.getcwd() + "/media/book_image.jpg"
 
 
 def is_there_optimized_data() -> bool:

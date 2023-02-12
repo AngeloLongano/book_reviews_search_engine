@@ -1,5 +1,4 @@
 import csv
-import os
 import sys
 from datetime import datetime
 from decimal import Decimal

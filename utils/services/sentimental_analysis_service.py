@@ -3,17 +3,17 @@ from scipy.special import softmax
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoTokenizer, AutoConfig
 
-MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
+from utils.services.path_used_service import MODEL_SENTIMENT_PATH
 
 
 # inizalizzazione del modello di sentiment analysis e restituzione delle variabili necessarie
 def initialize_sentiment_model():
-    tokenizer = AutoTokenizer.from_pretrained(MODEL)
-    config = AutoConfig.from_pretrained(MODEL)
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_SENTIMENT_PATH)
+    config = AutoConfig.from_pretrained(MODEL_SENTIMENT_PATH)
 
-    model = AutoModelForSequenceClassification.from_pretrained(MODEL)
-    model.save_pretrained(MODEL)
-    tokenizer.save_pretrained(MODEL)
+    model = AutoModelForSequenceClassification.from_pretrained(MODEL_SENTIMENT_PATH)
+    model.save_pretrained(MODEL_SENTIMENT_PATH)
+    tokenizer.save_pretrained(MODEL_SENTIMENT_PATH)
 
     return {"tokenizer": tokenizer, "model": model, "config": config}
 

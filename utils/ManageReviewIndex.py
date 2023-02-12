@@ -1,7 +1,9 @@
 import os
+
 import whoosh.index as index
 from whoosh import scoring
 from whoosh.qparser import QueryParser
+
 from utils.models.Scheme import ReviewScheme
 from utils.services.path_used_service import INDEX_DIR_PATH
 

@@ -1,7 +1,7 @@
 import customtkinter
 
-from gui.App import App
-from preprocessing.main_preprocessing import preprocessing
+from utils.gui.App import App
+from utils.preprocessing.main_preprocessing import preprocessing
 
 if __name__ == "__main__":
     

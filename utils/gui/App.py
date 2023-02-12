@@ -1,9 +1,10 @@
 from tkinter import *
+
 import customtkinter
 import html2text
 
-from gui.top_level_window import ToplevelWindow
 from utils.ManageReviewIndex import MangeReviewIndex
+from utils.gui.top_level_window import ToplevelWindow
 from utils.models.DocumentModel import DocumentModel
 
 
