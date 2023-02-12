@@ -19,9 +19,8 @@ def create_index():
     with open(ANALYZED_DATA_PATH, newline='') as f:
         print("Creazione indice...")
         data = csv.DictReader(f)
-        # inizializzazione del writer che permette la scrittura sull'index
-        index_manager.initialize_index()
-
+        
+        
         index_manager_functions = index_manager.writer_function()
 
         index = 0

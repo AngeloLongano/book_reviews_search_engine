@@ -11,23 +11,20 @@ from utils.services.path_used_service import INDEX_DIR_PATH
 class MangeReviewIndex:
 
     schema = ReviewScheme()
-    #index_path = os.getcwd() + "/index"
 
     def __init__(self):
-        #self.index_directory_path = MangeReviewIndex.index_path
         self.index_directory_path = INDEX_DIR_PATH
         self.ix=None
         self.default_field = "text"
-    def initialize_index(self):
+
         index_directory = os.listdir(self.index_directory_path)
         if len(index_directory)==0:
             self.ix = index.create_in(self.index_directory_path, MangeReviewIndex.schema)
         else:
             self.ix = index.open_dir(self.index_directory_path)
+        
     
     def search_index(self,query,field,sentiment,max_results,reversed_sort,sort_by):
-
-        #quando si inizializza il QueryParser,il primo campo sarebbe il campo di default per la ricerca
         query_parser = QueryParser(self.default_field, schema=MangeReviewIndex.schema)                 
         query_parsed = query_parser.parse(query)
         results = []

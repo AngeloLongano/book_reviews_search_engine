@@ -251,7 +251,6 @@ class App(customtkinter.CTk):
               sentiment_value, "soretd by:", sorted_by)
 
         index_manager = MangeReviewIndex()
-        index_manager.initialize_index()
         query_corretta = index_manager.correct_query(query)
 
         index = 0
