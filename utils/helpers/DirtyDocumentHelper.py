@@ -1,4 +1,8 @@
 class DirtyDocumentHelper:
+    """
+    Classe statica per gestire i documenti con i campi non standard (documento da Kaggle)
+    """
+
     fields = ["User_id",
               "profileName",
               "review/time",
@@ -10,11 +14,11 @@ class DirtyDocumentHelper:
               "Title"]
 
     @staticmethod
-    def is_valid(cls, item: dict) -> bool:
+    def is_valid(item: dict) -> bool:
         if not item:
             return False
         else:
-            for field in cls.fields:
+            for field in DirtyDocumentHelper.fields:
                 try:
                     if not item[field] or item[field] == "":
                         # print(field, ": value not valid")

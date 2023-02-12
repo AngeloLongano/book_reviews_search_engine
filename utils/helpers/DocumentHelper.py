@@ -6,6 +6,9 @@ from utils.models.DocumentModel import DocumentModel
 
 
 class DocumentHelper:
+    """
+        Classe statica per gestire i documenti con modello standard
+    """
     fields = list(DocumentModel.__annotations__.keys())
 
     @staticmethod

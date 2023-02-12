@@ -4,7 +4,6 @@ from typing import TypedDict
 
 class DocumentModel(TypedDict):
     """
-
     """
     id_user: int
     name_user: str
