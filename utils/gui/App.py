@@ -188,17 +188,19 @@ class App(customtkinter.CTk):
         # recensione.place(relx=0.5, rely=0.5, anchor=tkinter.N)
         self.sentiment.grid(row=1, column=2)
 
-        if (document["negative_sentiment"] > document["neutral_sentiment"] and document["negative_sentiment"] >
-                document["positive_sentiment"]):
-            self.sentiment.configure(text=document["negative_sentiment"], fg_color=("red"))
+        sentiment_values = {"negative_sentiment":document["negative_sentiment"],"positive_sentiment":document["positive_sentiment"],"neutral_sentiment":document["neutral_sentiment"]}
+        sorted_sentiment_values = sorted(sentiment_values.items(), key=lambda x: x[1], reverse=True)
+        foreground_color = ""
+        
+        if(sorted_sentiment_values[0][0] == "negative_sentiment"):
+            foreground_color="red"
+        elif(sorted_sentiment_values[0][0] == "positive_sentiment"):
+            foreground_color="green"
+        else:
+            foreground_color="white"
 
-        elif (document["neutral_sentiment"] > document["negative_sentiment"] and document["neutral_sentiment"] >
-              document["positive_sentiment"]):
-            self.sentiment.configure(text=document["neutral_sentiment"], fg_color=("white"))
-
-        elif (document["positive_sentiment"] > document["negative_sentiment"] and document["positive_sentiment"] >
-              document["neutral_sentiment"]):
-            self.sentiment.configure(text=document["positive_sentiment"], fg_color=("green"))
+        self.sentiment.configure(text=document[sorted_sentiment_values[0][0]],fg_color=foreground_color)
+        
 
         # Open book info
         self.open_book_info = customtkinter.CTkButton(self.book,
