@@ -5,6 +5,10 @@ from utils.services.path_used_service import is_there_optimized_data, is_there_a
 
 
 def preprocessing():
+    """
+    Funzione principale dove vengono chiamate tutte le fasi preprocessing dei dai fino alla creazione dei vari indici per la ricerca.
+    """
+
     if is_there_index_dir():
         print("PREPROCESSING: already DONE.")
         return
@@ -23,8 +27,5 @@ def preprocessing():
         else:
             print("SENTIMENTAL ANALYSIS: already done!")
 
-
     create_index()
     print("INDEX CREATED")
-
-

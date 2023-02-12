@@ -10,6 +10,13 @@ from utils.models.DocumentModel import DocumentModel
 
 def optimize_file(old_file_path: str, new_file_path: str, parse_object: Callable[[dict], DocumentModel | None],
                   n_documents: int | None = None):
+    """
+    Funzione
+    :param old_file_path:
+    :param new_file_path:
+    :param parse_object: funzione che fa il parsing di ogni documento
+    :param n_documents:
+    """
     with open(old_file_path, newline='') as file_old:
         with open(new_file_path, 'w', newline='') as file_new:
             writer = csv.DictWriter(file_new, fieldnames=DocumentHelper.fields)

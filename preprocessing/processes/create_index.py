@@ -5,17 +5,19 @@ from datetime import datetime
 from decimal import Decimal
 
 from utils.ManageReviewIndex import MangeReviewIndex
+from utils.services.path_used_service import ANALYZED_DATA_PATH
 from utils.services.time_decorator import long_time_function
 
-# path per il file books_ratings.csv
-data_path = os.getcwd() + "/processed_data/books_rating_with_sentimental.csv"
 
 @long_time_function
 def create_index():
+    """
+    Funzione che salva la struttura degli indici nella cartella index
+    """
     # dichiarazione della variabile ix per accedere all'index
     index_manager = MangeReviewIndex()
 
-    with open(data_path, newline='') as f:
+    with open(ANALYZED_DATA_PATH, newline='') as f:
         print("Creazione indice...")
         data = csv.DictReader(f)
         # inizializzazione del writer che permette la scrittura sull'index

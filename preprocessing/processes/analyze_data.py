@@ -4,15 +4,18 @@ from utils.services.path_used_service import OPTIMIZED_DATA_PATH, ANALYZED_DATA_
 from utils.services.sentimental_analysis_service import sentiment, initialize_sentiment_model
 from utils.services.time_decorator import long_time_function
 
-# ottengo le 3 variabili che servono per la sentimenti analysis [tokenizer,model,config]
 model_variables = initialize_sentiment_model()
 tokenizer = model_variables["tokenizer"]
 model = model_variables["model"]
 config = model_variables["config"]
 
 
-def add_sentimental_analysis(item:DocumentModel)-> DocumentModel:
-    # ottengo i valori della sentiment sul testo della recensione
+def add_sentimental_analysis(item: DocumentModel) -> DocumentModel:
+    """
+    Funsione che aggiunge la sentimental analysis ad una recensione
+    :param item: recensione
+    :return: recensione con sentimental analysis
+    """
     sentiment_analysis = sentiment(item["text"], tokenizer, model, config)
     return {
         **item,
@@ -21,8 +24,13 @@ def add_sentimental_analysis(item:DocumentModel)-> DocumentModel:
         "positive_sentiment": sentiment_analysis["positive"],
     }
 
+
 @long_time_function
 def analyze_data():
+    """
+    Funzione che crea il file con i dati con la sentiment analysis per ogni recensione
+    :return:
+    """
     print("Inizio sentimental analysis sui dati...")
     optimize_file(old_file_path=OPTIMIZED_DATA_PATH, new_file_path=ANALYZED_DATA_PATH,
                   parse_object=add_sentimental_analysis)
