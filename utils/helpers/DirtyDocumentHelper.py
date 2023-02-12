@@ -21,9 +21,7 @@ class DirtyDocumentHelper:
             for field in DirtyDocumentHelper.fields:
                 try:
                     if not item[field] or item[field] == "":
-                        # print(field, ": value not valid")
                         return False
                 except KeyError:
-                    # print(field, " not present")
                     return False
             return True

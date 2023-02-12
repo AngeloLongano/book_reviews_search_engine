@@ -4,6 +4,7 @@ from typing import TypedDict
 
 class DocumentModel(TypedDict):
     """
+    Assegnazione ad ogni variabile del modello utilizzata ad una tipologia specifica
     """
     id_user: int
     name_user: str
