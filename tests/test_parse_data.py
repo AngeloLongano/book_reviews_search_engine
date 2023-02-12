@@ -17,6 +17,9 @@ CORRECT_OBJECT = {
 
 
 class TestValidationDirtyDocument(unittest.TestCase):
+    """
+    Test per il testing del metodo DirtyDocumentHelper.is_valid che controlla
+    """
     def test_correct_object(self):
         self.assertTrue(DirtyDocumentHelper.is_valid(CORRECT_OBJECT))
 

@@ -1,5 +1,4 @@
 from tkinter import *
-
 import customtkinter
 
 
@@ -7,6 +6,12 @@ class ToplevelWindow(customtkinter.CTkToplevel):
 
     # Costructor
     def __init__(self, app, document):
+        """ 
+            Costruttore per la classe ToplevelWindow. Creazione widget che compongono la Gui
+
+            :param app: istanza della classe che la richiama
+            :param document: lista contenente informazioni sulla recensione
+        """
         super().__init__(app)
         self.document = document
         self.geometry("700x450")
