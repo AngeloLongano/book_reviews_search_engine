@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 from utils.helpers.DirtyDocumentHelper import DirtyDocumentHelper
 from utils.helpers.DocumentHelper import DocumentHelper
 from utils.models.DocumentModel import DocumentModel

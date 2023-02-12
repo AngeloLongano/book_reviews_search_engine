@@ -15,6 +15,8 @@ class App(customtkinter.CTk):
         # configure window
         self.title("Books Review")
         self.geometry(f"{1100}x{580}")  # {1100}x{580}
+        customtkinter.set_appearance_mode("Dark")  
+        customtkinter.set_default_color_theme("dark-blue")
 
         # configure grid layout (4x4)
         self.grid_columnconfigure(1, weight=1)

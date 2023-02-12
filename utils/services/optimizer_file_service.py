@@ -1,8 +1,7 @@
-
+from __future__ import annotations
 import csv
 import sys
 from typing import Callable
-
 from utils.helpers.DocumentHelper import DocumentHelper
 from utils.models.DocumentModel import DocumentModel
 
