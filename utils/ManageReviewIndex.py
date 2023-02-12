@@ -31,6 +31,7 @@ class MangeReviewIndex:
 
     def search_index(self, query: str, field: str, sentiment: str, max_results: int, reversed_sort: int, sort_by: str):
         """
+        La funzione si occupa di fare una ricerca all'interno del nostro index utilizzando i parametri forniti
 
         :param query:
         :param field:
@@ -83,19 +84,24 @@ class MangeReviewIndex:
 
     def writer_function(self):
         """
-
+        Restituisce le due funzioni per aggiungere un documento e per chiudere l'index scrivendo le modifiche
         :return: {"add_document", "save_document"}
         """
         writer = self.ix.writer()
         return {"add_document": writer.add_document, "save_document": writer.commit}
 
     def suggest_words(self, mistyped_word):
+        """
+        Restituisce delle possibili correzioni al termine in mistyped_word usando il corpus dell'index
+        :param mistyped_word:
+        """
         with self.ix.searcher() as s:
             corrector = s.corrector("text")
             print(corrector.suggest(mistyped_word, limit=3))
 
     def correct_query(self, query):
         """
+        Restituisce una correzione della query presente in query
 
         :param query:
         :return:
@@ -106,5 +112,5 @@ class MangeReviewIndex:
         with self.ix.searcher() as s:
             corrected = s.correct_query(query_parsed, query)
             if corrected.query != query_parsed:
-                print("Did you mean:", corrected.string)
+                print("Did you mean:", corrected.string+"?")
                 return corrected.string
