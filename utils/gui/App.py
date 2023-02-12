@@ -1,17 +1,15 @@
 from tkinter import *
-
 import customtkinter
 import html2text
-
 from utils.ManageReviewIndex import MangeReviewIndex
 from utils.gui.top_level_window import ToplevelWindow
 from utils.models.DocumentModel import DocumentModel
-
 
 class App(customtkinter.CTk):
 
     # costruttore
     def __init__(self):
+        """ Costruttore per la classe App. Creazione widget che compongono la Gui"""
         super().__init__()
 
         # configure window
@@ -117,10 +115,21 @@ class App(customtkinter.CTk):
 
     # info book
     def open_book_model(self, document):
-        self.toplevel_window = ToplevelWindow(self, document)  # create window if its None or destroyed
+        """ 
+            Crea istanza della classe ToplevelWindow. Apre una finestra con tutte le informazioni relative alla recensione
+
+            :param document: lista contenente informazioni sulla recensione
+        """
+        self.toplevel_window = ToplevelWindow(self, document)
 
     # create book
     def crea_libro(self, riga, document: DocumentModel):
+        """ 
+            Metodo che crea i widget per ogni risulato prodotto dalla query dell'utente 
+
+            :param riga: valore intero, per inserire il risultato nella 'Grid' risultati
+            :param document: lista contenente informazioni sulla recensione
+        """
         # book frame
         self.book = customtkinter.CTkFrame(self.my_frame, corner_radius=15, fg_color='#323332', border_width=0)
         self.book.grid(row=riga, column=0, columnspan=2, pady=5)
@@ -201,6 +210,11 @@ class App(customtkinter.CTk):
 
     # print error
     def print_error(self, query_corretta):
+        """ 
+            Metodo di creazione di widget per il mancato ritrovamento di corrispondenza con la query 
+            
+            :param query_corretta: query corretta
+        """
         # Errore print
         my_font = customtkinter.CTkFont(size=20, weight='bold')
         self.error = customtkinter.CTkLabel(self.my_frame,
@@ -221,6 +235,9 @@ class App(customtkinter.CTk):
 
     # submit search
     def submit_search(self):
+        """
+            Metodo per inviare la ricerca, produrre i risultati e stamparli all'interno della Gui
+        """
         # take value from GUI
         query = self.query.get()
         reverse = self.reverse.get()
@@ -251,7 +268,6 @@ class App(customtkinter.CTk):
               sentiment_value, "soretd by:", sorted_by)
 
         index_manager = MangeReviewIndex()
-        index_manager.initialize_index()
         query_corretta = index_manager.correct_query(query)
 
         index = 0
@@ -269,5 +285,6 @@ class App(customtkinter.CTk):
 
     # remove book
     def delete_books(self):
+        """ Metodo per eliminare i widget 'risultato' della gui"""
         for child in self.my_frame.winfo_children():
             child.destroy()

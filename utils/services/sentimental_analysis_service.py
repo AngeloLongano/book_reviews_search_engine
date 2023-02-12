@@ -8,6 +8,12 @@ from utils.services.path_used_service import MODEL_SENTIMENT_PATH
 
 # inizalizzazione del modello di sentiment analysis e restituzione delle variabili necessarie
 def initialize_sentiment_model():
+    """
+    Inizializza il modello di sentiment analysis
+    genera le variabili per gestire il tokenizer,configurazione e modello
+    restituisce le variabili per utilizzo esterno
+
+    """
     tokenizer = AutoTokenizer.from_pretrained(MODEL_SENTIMENT_PATH)
     config = AutoConfig.from_pretrained(MODEL_SENTIMENT_PATH)
 
@@ -18,8 +24,16 @@ def initialize_sentiment_model():
     return {"tokenizer": tokenizer, "model": model, "config": config}
 
 
-# calcolo della sentiment sulla entry restituendo 3 valori di positivià,negatività e neutralità
-def sentiment(text, tokenizer, model, config):
+def sentiment(text: str, tokenizer: AutoTokenizer, model: AutoModelForSequenceClassification, config: AutoConfig): 
+    """
+    :param text: testo da analizzare
+    :param tokenizer:
+    :param model: 
+    :param config:
+
+    Calcola il valore di sentiment analysis di text
+    restituisce tre valori di positività,neutralità e negatività
+    """
     negative = 0
     neutral = 0
     positive = 0
@@ -33,9 +47,10 @@ def sentiment(text, tokenizer, model, config):
     ranking = ranking[::-1]
 
     for i in range(scores.shape[0]):
+        
         l = config.id2label[ranking[i]]
         s = scores[ranking[i]]
-        # in base alla label assegno il valore alla variabile specifica
+
         if l == "negative":
             negative = np.round(float(s), 4)
         elif l == "positive":
