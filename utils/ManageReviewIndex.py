@@ -9,10 +9,16 @@ from utils.services.path_used_service import INDEX_DIR_PATH
 
 
 class MangeReviewIndex:
-
+    """
+    Classe che gestisce tutte le funzionalità dell'index
+    """
     schema = ReviewScheme()
 
     def __init__(self):
+        """
+        Costruttore della classe
+        inizializza le variabili di istanza
+        """
         self.index_directory_path = INDEX_DIR_PATH
         self.ix=None
         self.default_field = "text"
@@ -24,7 +30,7 @@ class MangeReviewIndex:
             self.ix = index.open_dir(self.index_directory_path)
         
     
-    def search_index(self,query,field,sentiment,max_results,reversed_sort,sort_by):
+    def search_index(self,query: str,field: str,sentiment: str,max_results: int,reversed_sort: int,sort_by: str):
         query_parser = QueryParser(self.default_field, schema=MangeReviewIndex.schema)                 
         query_parsed = query_parser.parse(query)
         results = []
