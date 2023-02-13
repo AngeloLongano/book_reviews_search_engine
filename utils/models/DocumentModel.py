@@ -4,7 +4,7 @@ from typing import TypedDict
 
 class DocumentModel(TypedDict):
     """
-    Assegnazione ad ogni variabile del modello utilizzata ad una tipologia specifica
+    Classe che definisce il dizionario tipizzato (standard per accedere ad un documento)
     """
     id_user: int
     name_user: str
