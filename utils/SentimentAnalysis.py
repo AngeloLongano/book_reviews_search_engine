@@ -1,4 +1,5 @@
 
+from ast import Dict
 import numpy as np
 from scipy.special import softmax
 from transformers import AutoModelForSequenceClassification
@@ -28,7 +29,7 @@ class SentimentAnalysis(SentimentAnalysisAbstract):
 
         # return {"tokenizer": tokenizer, "model": model, "config": config}
 
-    def sentiment(self, text: str) -> {"negative": float, "neutral": float, "positive": float}:
+    def sentiment(self, text: str) -> Dict:
         """
         :param text: testo da analizzare
         :param tokenizer:

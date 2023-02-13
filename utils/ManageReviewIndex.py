@@ -1,3 +1,4 @@
+from ast import Dict
 import os
 from typing import Callable
 
@@ -85,7 +86,7 @@ class MangeReviewIndex(ManageIndexAbstract):
 
         return results
 
-    def writer_function(self) -> {"add_document": Callable[[DocumentModel], None], "save_document": Callable[[], None]}:
+    def writer_function(self) -> Dict:
         """
         Restituisce le due funzioni per aggiungere un documento e per chiudere l'index scrivendo le modifiche
         :return: {"add_document", "save_document"}
