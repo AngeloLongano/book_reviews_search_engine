@@ -1,13 +1,15 @@
 from utils.models.DocumentModel import DocumentModel
 from utils.services.optimizer_file_service import optimize_file
 from utils.services.path_used_service import OPTIMIZED_DATA_PATH, ANALYZED_DATA_PATH
-from utils.services.sentimental_analysis_service import sentiment, initialize_sentiment_model
+from utils.services.sentimental_analysis_service import SentimentAnalysis
 from utils.services.time_decorator import long_time_function
 
-model_variables = initialize_sentiment_model()
+sentimentAnalyzer = SentimentAnalysis()
+'''
 tokenizer = model_variables["tokenizer"]
 model = model_variables["model"]
 config = model_variables["config"]
+'''
 
 
 def add_sentimental_analysis(item: DocumentModel) -> DocumentModel:
@@ -16,7 +18,7 @@ def add_sentimental_analysis(item: DocumentModel) -> DocumentModel:
     :param item: recensione
     :return: recensione con sentimental analysis
     """
-    sentiment_analysis = sentiment(item["text"], tokenizer, model, config)
+    sentiment_analysis = sentimentAnalyzer.sentiment(item["text"])
     return {
         **item,
         "negative_sentiment": sentiment_analysis["negative"],
