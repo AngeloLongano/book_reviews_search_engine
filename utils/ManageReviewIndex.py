@@ -1,14 +1,17 @@
 import os
+from typing import Callable
 
 import whoosh.index as index
 from whoosh import scoring
 from whoosh.qparser import QueryParser
 
+from utils.abstract.ManageIndexAbstract import ManageIndexAbstract
+from utils.models.DocumentModel import DocumentModel
 from utils.models.Scheme import ReviewScheme
 from utils.services.path_used_service import INDEX_DIR_PATH
 
 
-class MangeReviewIndex:
+class MangeReviewIndex(ManageIndexAbstract):
     """
     Classe che gestisce tutte le funzionalità dell'index
     """
@@ -82,7 +85,7 @@ class MangeReviewIndex:
 
         return results
 
-    def writer_function(self):
+    def writer_function(self) -> {"add_document": Callable[[DocumentModel], None], "save_document": Callable[[], None]}:
         """
         Restituisce le due funzioni per aggiungere un documento e per chiudere l'index scrivendo le modifiche
         :return: {"add_document", "save_document"}
@@ -90,7 +93,7 @@ class MangeReviewIndex:
         writer = self.ix.writer()
         return {"add_document": writer.add_document, "save_document": writer.commit}
 
-    def suggest_words(self, mistyped_word):
+    def suggest_words(self, mistyped_word: str):
         """
         Restituisce delle possibili correzioni al termine in mistyped_word usando il corpus dell'index
         :param mistyped_word:
@@ -112,5 +115,5 @@ class MangeReviewIndex:
         with self.ix.searcher() as s:
             corrected = s.correct_query(query_parsed, query)
             if corrected.query != query_parsed:
-                print("Did you mean:", corrected.string+"?")
+                print("Did you mean:", corrected.string + "?")
                 return corrected.string
