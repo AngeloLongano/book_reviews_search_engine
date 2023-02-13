@@ -13,22 +13,16 @@ def create_index():
     """
     Funzione che salva la struttura degli indici nella cartella index
     """
-    # dichiarazione della variabile ix per accedere all'index
     index_manager = MangeReviewIndex()
 
     with open(ANALYZED_DATA_PATH, newline='') as f:
         print("Creazione indice...")
         data = csv.DictReader(f)
-        
-        
+
         index_manager_functions = index_manager.writer_function()
 
-        index = 0
-        for item in data:
-            sys.stdout.write("\r\tDocumenti indicizzati %i" % index)
-            sys.stdout.flush()
-
-            index += 1
+        for index, item in enumerate(data):
+            sys.stdout.write(f"\r\tDocumenti analizzati {index}")
 
             review = {
                 **item,

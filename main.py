@@ -1,4 +1,3 @@
-import customtkinter
 from utils.gui.App import App
 from utils.preprocessing.main_preprocessing import preprocessing
 

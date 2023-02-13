@@ -1,3 +1,5 @@
+from typing import Any
+
 import numpy as np
 from scipy.special import softmax
 from transformers import AutoModelForSequenceClassification
@@ -24,13 +26,12 @@ def initialize_sentiment_model():
     return {"tokenizer": tokenizer, "model": model, "config": config}
 
 
-def sentiment(text: str, tokenizer: AutoTokenizer, model: AutoModelForSequenceClassification, config: AutoConfig): 
+def sentiment(text: str, tokenizer: Any, model: Any, config: Any):
     """
     :param text: testo da analizzare
     :param tokenizer:
     :param model: 
     :param config:
-
     Calcola il valore di sentiment analysis di text
     restituisce tre valori di positività,neutralità e negatività
     """
@@ -47,7 +48,7 @@ def sentiment(text: str, tokenizer: AutoTokenizer, model: AutoModelForSequenceCl
     ranking = ranking[::-1]
 
     for i in range(scores.shape[0]):
-        
+
         l = config.id2label[ranking[i]]
         s = scores[ranking[i]]
 

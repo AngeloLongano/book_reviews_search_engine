@@ -1,9 +1,12 @@
 from tkinter import *
+
 import customtkinter
 import html2text
+
 from utils.ManageReviewIndex import MangeReviewIndex
 from utils.gui.top_level_window import ToplevelWindow
 from utils.models.DocumentModel import DocumentModel
+
 
 class App(customtkinter.CTk):
 
@@ -15,7 +18,7 @@ class App(customtkinter.CTk):
         # configure window
         self.title("Books Review")
         self.geometry(f"{1100}x{580}")  # {1100}x{580}
-        customtkinter.set_appearance_mode("Dark")  
+        customtkinter.set_appearance_mode("Dark")
         customtkinter.set_default_color_theme("dark-blue")
 
         # configure grid layout (4x4)
@@ -168,7 +171,7 @@ class App(customtkinter.CTk):
 
         # Review
         self.review = customtkinter.CTkTextbox(self.book, width=620, height=130)
-        self.review.grid(row=2, column=0, padx=(50,0))
+        self.review.grid(row=2, column=0, padx=(50, 0))
         text_highlights = html2text.html2text(document["highlights"])
         self.review.insert("0.0", text_highlights)  # insert at line 0 character 0
         self.review.configure(state="disabled")
@@ -188,19 +191,20 @@ class App(customtkinter.CTk):
         # recensione.place(relx=0.5, rely=0.5, anchor=tkinter.N)
         self.sentiment.grid(row=1, column=2)
 
-        sentiment_values = {"negative_sentiment":document["negative_sentiment"],"positive_sentiment":document["positive_sentiment"],"neutral_sentiment":document["neutral_sentiment"]}
+        sentiment_values = {"negative_sentiment": document["negative_sentiment"],
+                            "positive_sentiment": document["positive_sentiment"],
+                            "neutral_sentiment": document["neutral_sentiment"]}
         sorted_sentiment_values = sorted(sentiment_values.items(), key=lambda x: x[1], reverse=True)
         foreground_color = ""
-        
-        if(sorted_sentiment_values[0][0] == "negative_sentiment"):
-            foreground_color="red"
-        elif(sorted_sentiment_values[0][0] == "positive_sentiment"):
-            foreground_color="green"
-        else:
-            foreground_color="white"
 
-        self.sentiment.configure(text=document[sorted_sentiment_values[0][0]],fg_color=foreground_color)
-        
+        if (sorted_sentiment_values[0][0] == "negative_sentiment"):
+            foreground_color = "red"
+        elif (sorted_sentiment_values[0][0] == "positive_sentiment"):
+            foreground_color = "green"
+        else:
+            foreground_color = "white"
+
+        self.sentiment.configure(text=document[sorted_sentiment_values[0][0]], fg_color=foreground_color)
 
         # Open book info
         self.open_book_info = customtkinter.CTkButton(self.book,
@@ -274,16 +278,14 @@ class App(customtkinter.CTk):
         index_manager = MangeReviewIndex()
         query_corretta = index_manager.correct_query(query)
 
-        index = 0
         query_results = index_manager.search_index(query, "text", sort_name_corrispondence[sentiment_value],
                                                    num_max_docs, reverse, sort_name_corrispondence[sorted_by])
 
         self.results_number.configure(text="About " + str(len(query_results)) + " results")
 
         if query_results:
-            for i in query_results:
-                self.crea_libro(index, i)
-                index += 1
+            for index, result in enumerate(query_results):
+                self.crea_libro(index, result)
         else:
             self.print_error(query_corretta)
 
