@@ -1,7 +1,7 @@
+from utils.SentimentAnalysis import SentimentAnalysis
 from utils.models.DocumentModel import DocumentModel
 from utils.services.optimizer_file_service import optimize_file
 from utils.services.path_used_service import OPTIMIZED_DATA_PATH, ANALYZED_DATA_PATH
-from utils.services.sentimental_analysis_service import SentimentAnalysis
 from utils.services.time_decorator import long_time_function
 
 sentimentAnalyzer = SentimentAnalysis()
