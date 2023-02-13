@@ -44,52 +44,53 @@ _lista moduli:_
 
 # Struttura progetto
 
-    BookReviewsSearchEngine
+BookReviewsSearchEngine
     |
-    ├── gui
-    │   ├── __init__.py
-    │   ├── App.py
-    │   └── top_level_window.py
-    │   
-    ├── preprocessing
-    |   |
-    |   ├── __init__.py
-    |   ├── main_preprocessing.py
-    |   └── processes
-    |       |
-    |       ├── __init__.py
-    |       ├── analyze_data.py
-    |       ├── create_index.py
-    |       └── optimize_data.py
     |
     ├── test
     |   |
-    |   ├── __init__.py
+    |   ├── _init_.py
     |   └── test_parse_data.py
     |
     ├── utils
     |    |
+    |    ├── gui
+    |    │   ├── _init_.py
+    |    │   ├── App.py
+    |    │   └── top_level_window.py
+    |    │   
+    |    ├── preprocessing
+    |    |   |
+    |    |   ├── _init_.py
+    |    |   ├── main_preprocessing.py
+    |    |   └── processes
+    |    |       |
+    |    |       ├── _init_.py
+    |    |       ├── analyze_data.py
+    |    |       ├── create_index.py
+    |    |       └── optimize_data.py
+    |    |
     |    ├── ManageReviewIndex.py
     |    ├── helpers
     |    |   |
-    |    |   ├── __init__.py
+    |    |   ├── _init_.py
     |    |   ├── DirtyDocumentHelper.py
     |    |   └── DocumentHelper.py
     |    |
     |    ├── models
     |    |   |
-    |    |   ├── __init__.py
+    |    |   ├── _init_.py
     |    |   ├── DocumentModel.py
     |    |   └── Scheme.py
     |    |
     |    └── services
     |        |
-    |        ├── __init__.py
+    |        ├── _init_.py
     |        ├── optimizer_file_service.py
     |        ├── path_used_service.py
     |        ├── sentimental_analysis_service.py
     |        └── time_decorator.py
     |
-    └── main.py
+    └── main.py 
 
 
