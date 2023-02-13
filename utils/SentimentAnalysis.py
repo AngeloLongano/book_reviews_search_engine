@@ -52,7 +52,7 @@ class SentimentAnalysis(SentimentAnalysisAbstract):
 
         ranking = np.argsort(scores)
         ranking = ranking[::-1]
-
+        #shape restituisce la struttura di scores. ES. matrice 3x3
         for i in range(scores.shape[0]):
 
             l = self.config.id2label[ranking[i]]

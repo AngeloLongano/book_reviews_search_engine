@@ -60,18 +60,29 @@ class App(customtkinter.CTk):
         self.sentiment_value.grid(row=4, column=0, padx=20, pady=10)
         self.sentiment_value.set("None")
 
+        # algoritmo di scoring
+        
+        self.scoring_algorithm_label = customtkinter.CTkLabel(self.left_side_bar, text="Ranking:", anchor="w")
+        self.scoring_algorithm_label.grid(row=5, column=0)
+        
+        self.scoring_algorithm = customtkinter.CTkOptionMenu(self.left_side_bar,
+                                                           values=["BM25F", "TF_IDF"], )
+        self.scoring_algorithm.grid(row=6, column=0, padx=20, pady=10)
+        self.scoring_algorithm.set("BM25F")
+        
+        
         # Sort By
         self.sort_by_label = customtkinter.CTkLabel(self.left_side_bar, text="Sort by:", anchor="w")
-        self.sort_by_label.grid(row=5, column=0)
+        self.sort_by_label.grid(row=7, column=0)
 
         self.sort_by = customtkinter.CTkOptionMenu(self.left_side_bar,
                                                    values=["Price", "Negative", "Neutral", "Positive", "Score",
                                                            "Date"], )
-        self.sort_by.grid(row=6, column=0, padx=20, pady=10)
+        self.sort_by.grid(row=8, column=0, padx=20, pady=10)
 
         self.reverse = customtkinter.CTkSwitch(master=self.left_side_bar, text="Reverse Sort", onvalue="on",
                                                offvalue="off")
-        self.reverse.grid(row=7, column=0, padx=20, pady=10)
+        self.reverse.grid(row=9, column=0, padx=20, pady=10)
 
         # ------------------- Right Frame ----------------------
         # input search
@@ -160,7 +171,7 @@ class App(customtkinter.CTk):
         self.data_review.grid(row=0, column=2, padx=5)
 
         # Review Title
-        title_score = document["title"][:45] + "..., Score:" + str(document["score"])
+        title_score = document["title"][:45] + "..., Score: " + str(document["score"])+", Price: $"+str(document["price_book"])
 
         self.review_title = customtkinter.CTkLabel(self.book,
                                                    text=title_score,
@@ -252,6 +263,7 @@ class App(customtkinter.CTk):
         num_max_docs = self.num_max_docs.get()
         sentiment_value = self.sentiment_value.get()
         sorted_by = self.sort_by.get()
+        scoring = self.scoring_algorithm.get()
 
         # remove results of previus query
         self.delete_books()
@@ -279,7 +291,7 @@ class App(customtkinter.CTk):
         query_corretta = index_manager.correct_query(query)
 
         query_results = index_manager.search_index(query, "text", sort_name_corrispondence[sentiment_value],
-                                                   num_max_docs, reverse, sort_name_corrispondence[sorted_by])
+                                                   num_max_docs, reverse, sort_name_corrispondence[sorted_by],scoring)
 
         self.results_number.configure(text="About " + str(len(query_results)) + " results")
 
