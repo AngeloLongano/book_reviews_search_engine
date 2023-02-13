@@ -273,7 +273,7 @@ class App(customtkinter.CTk):
             num_max_docs = int(num_max_docs)
 
         print("parametri: ", "query:", query, "reverse:", reverse, "num max docs:", num_max_docs, "sentiment:",
-              sentiment_value, "soretd by:", sorted_by)
+              sentiment_value, "sorted by:", sorted_by)
 
         index_manager = MangeReviewIndex()
         query_corretta = index_manager.correct_query(query)
