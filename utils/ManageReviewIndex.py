@@ -50,7 +50,7 @@ class MangeReviewIndex(ManageIndexAbstract):
         if(scoring_algorithm=="TF_IDF"):
             ranking_algorithm = scoring.TF_IDF()
         else:
-            ranking_algorithm = scoring.BM25F()
+            ranking_algorithm = scoring.BM25F(B=0.75, content_B=1.0, K1=1.5)
             
         query_parser = QueryParser(self.default_field, schema=MangeReviewIndex.schema)
         query_parsed = query_parser.parse(query)

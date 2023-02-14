@@ -33,12 +33,12 @@ class App(customtkinter.CTk):
         self.left_side_bar.grid(row=0, column=0, rowspan=4, sticky="NSew")
 
         # titolo
-        self.label_logo = customtkinter.CTkLabel(self.left_side_bar, text="Filtri",
+        self.label_logo = customtkinter.CTkLabel(self.left_side_bar, text="Filters",
                                                  font=customtkinter.CTkFont(size=20, weight="bold"))
         self.label_logo.grid(row=0, column=0, padx=20, pady=(20, 10))
 
         # N. massimo elementi
-        self.num_max_docs_label = customtkinter.CTkLabel(self.left_side_bar, text="Numero massimo elementi:",
+        self.num_max_docs_label = customtkinter.CTkLabel(self.left_side_bar, text="Max number of results:",
                                                          anchor="w")
         self.num_max_docs_label.grid(row=1, column=0)
 
@@ -87,7 +87,7 @@ class App(customtkinter.CTk):
         # ------------------- Right Frame ----------------------
         # input search
         self.query = customtkinter.CTkEntry(self,
-                                            placeholder_text="Ricerca",
+                                            placeholder_text="Search",
                                             width=600,
                                             height=35,
                                             border_width=2,
