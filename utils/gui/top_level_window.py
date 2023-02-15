@@ -27,8 +27,8 @@ class ToplevelWindow(customtkinter.CTkToplevel):
 
         # Review Title
         self.review_title = customtkinter.CTkLabel(self,
-                                            text=document["title"][:45]+"...",
-                                            font=(None, 20),
+                                            text=document["title"],
+                                            font=(None, 10),
                                             anchor=NW,
                                             corner_radius=8)
         self.review_title.grid(row=0, column=0)

@@ -76,13 +76,14 @@ class App(customtkinter.CTk):
         self.sort_by_label.grid(row=7, column=0)
 
         self.sort_by = customtkinter.CTkOptionMenu(self.left_side_bar,
-                                                   values=["Price", "Negative", "Neutral", "Positive", "Score",
+                                                   values=["None","Price", "Negative", "Neutral", "Positive", "Score",
                                                            "Date"], )
         self.sort_by.grid(row=8, column=0, padx=20, pady=10)
 
         self.reverse = customtkinter.CTkSwitch(master=self.left_side_bar, text="Reverse Sort", onvalue="on",
                                                offvalue="off")
         self.reverse.grid(row=9, column=0, padx=20, pady=10)
+    
 
         # ------------------- Right Frame ----------------------
         # input search

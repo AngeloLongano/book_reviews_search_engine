@@ -46,17 +46,21 @@ class MangeReviewIndex(ManageIndexAbstract):
         :return:
         """
         ranking_algorithm = None
-        
+        sort_params = {}
         if(scoring_algorithm=="TF_IDF"):
             ranking_algorithm = scoring.TF_IDF()
         else:
             ranking_algorithm = scoring.BM25F(B=0.75, content_B=1.0, K1=1.5)
+        
+        #Questo serve in modo da avere anche i risultati senza scegliere un sort specifico
+        if(sort_by != "None"):
+            sort_params["sortedby"] = sort_by
             
         query_parser = QueryParser(self.default_field, schema=MangeReviewIndex.schema)
         query_parsed = query_parser.parse(query)
         results = []
         with self.ix.searcher(weighting=ranking_algorithm) as searcher:
-            query_results = searcher.search(query_parsed, sortedby=sort_by, reverse=reversed_sort,
+            query_results = searcher.search(query_parsed, **sort_params, reverse=reversed_sort,
                                             limit=max_results * 2)
             query_results_scored = query_results.scored_length()
             print("ricerca...")
