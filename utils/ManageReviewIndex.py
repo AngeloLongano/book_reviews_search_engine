@@ -1,36 +1,14 @@
-from ast import Dict
 import os
-from typing import Callable
+from ast import Dict
 
 import whoosh.index as index
-from whoosh import scoring, qparser
+from whoosh import scoring
 from whoosh.qparser import QueryParser
 
-from utils.CustomWeighting import CustomWeighting, CustomBM25F, CustomScorer
 from utils.SentimentAwareScore import SentimentAwareScorer
 from utils.abstract.ManageIndexAbstract import ManageIndexAbstract
-from utils.models.DocumentModel import DocumentModel
 from utils.models.Scheme import ReviewScheme
 from utils.services.path_used_service import INDEX_DIR_PATH
-
-
-def custom_scoring(searcher, fieldname, text, matcher):
-    frequency = scoring.Frequency().scorer(searcher, fieldname, text).score(matcher)
-    tfidf = scoring.TF_IDF().scorer(searcher, fieldname, text).score(matcher)
-    bm25 = scoring.BM25F().scorer(searcher, fieldname, text).score(matcher)
-    #positive = scoring.BM25F().scorer(searcher, "positive_sentiment", text).score(matcher)
-
-    print("query ", text)
-    print("frequency", frequency)
-    print("tfidf", tfidf)
-    print("bm25", bm25)
-
-    print()
-    print()
-    return bm25
-
-
-custom_weighting = scoring.FunctionWeighting(custom_scoring)
 
 
 class MangeReviewIndex(ManageIndexAbstract):
@@ -85,14 +63,11 @@ class MangeReviewIndex(ManageIndexAbstract):
         print("query parsed ",query_parsed)
         results = []
 
-        with self.ix.searcher(weighting=SentimentAwareScorer) as searcher:
-            #scorer = CustomScorer("positive_sentiment", 0.5)
+        with self.ix.searcher(weighting=SentimentAwareScorer(positive_boost=1, negative_boost=0, neutral_boost=0)) as searcher:
+
             query_results = searcher.search(query_parsed, **sort_params, reverse=reversed_sort,
                                             limit=max_results * 2)
-            # text:"awesome book" AND positive_sentiment:[0.5 TO 1]
-            positive_results = searcher.search(query_parser.parse(f"{query} AND positive_sentiment:[0.5 TO 1]"), **sort_params, reverse=reversed_sort,
-                                            limit=max_results * 2)
-            #query_results.upgrade_and_extend(positive_results)
+
             query_results_scored = query_results.scored_length()
             print("ricerca...")
             print("----------RESULTS-----------")
@@ -120,6 +95,7 @@ class MangeReviewIndex(ManageIndexAbstract):
                             print(i + ": ", result[i])
                     document["highlights"] = result.highlights(field)
                     results.append(document)
+                #TODO: da mettere lo score nella ui
                 print("score",result.score)
                 print("boost",result.__dict__)
                 print(result[field], "\n")
