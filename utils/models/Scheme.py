@@ -17,6 +17,6 @@ class ReviewScheme(SchemaClass):
     price_book = NUMERIC(stored=True, sortable=True, decimal_places=2)
     title_book = TEXT(analyzer=StemmingAnalyzer(), phrase=True, stored=True)
 
-    negative_sentiment = NUMERIC(stored=True, sortable=True, decimal_places=4)
-    neutral_sentiment = NUMERIC(stored=True, sortable=True, decimal_places=4)
-    positive_sentiment = NUMERIC(stored=True, sortable=True, decimal_places=4)
+    negative_sentiment = NUMERIC(stored=True, sortable=True, decimal_places=4,field_boost=2.0)
+    neutral_sentiment = NUMERIC(stored=True, sortable=True, decimal_places=4,field_boost=2.0)
+    positive_sentiment = NUMERIC(stored=True, sortable=True, decimal_places=4,field_boost=2.0)

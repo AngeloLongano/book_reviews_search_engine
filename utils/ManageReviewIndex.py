@@ -3,13 +3,34 @@ import os
 from typing import Callable
 
 import whoosh.index as index
-from whoosh import scoring
+from whoosh import scoring, qparser
 from whoosh.qparser import QueryParser
 
+from utils.CustomWeighting import CustomWeighting, CustomBM25F, CustomScorer
+from utils.SentimentAwareScore import SentimentAwareScorer
 from utils.abstract.ManageIndexAbstract import ManageIndexAbstract
 from utils.models.DocumentModel import DocumentModel
 from utils.models.Scheme import ReviewScheme
 from utils.services.path_used_service import INDEX_DIR_PATH
+
+
+def custom_scoring(searcher, fieldname, text, matcher):
+    frequency = scoring.Frequency().scorer(searcher, fieldname, text).score(matcher)
+    tfidf = scoring.TF_IDF().scorer(searcher, fieldname, text).score(matcher)
+    bm25 = scoring.BM25F().scorer(searcher, fieldname, text).score(matcher)
+    #positive = scoring.BM25F().scorer(searcher, "positive_sentiment", text).score(matcher)
+
+    print("query ", text)
+    print("frequency", frequency)
+    print("tfidf", tfidf)
+    print("bm25", bm25)
+
+    print()
+    print()
+    return bm25
+
+
+custom_weighting = scoring.FunctionWeighting(custom_scoring)
 
 
 class MangeReviewIndex(ManageIndexAbstract):
@@ -33,7 +54,8 @@ class MangeReviewIndex(ManageIndexAbstract):
         else:
             self.ix = index.open_dir(self.index_directory_path)
 
-    def search_index(self, query: str, field: str, sentiment: str, max_results: int, reversed_sort: int, sort_by: str, scoring_algorithm: str):
+    def search_index(self, query: str, field: str, sentiment: str, max_results: int, reversed_sort: int, sort_by: str,
+                     scoring_algorithm: str):
         """
         La funzione si occupa di fare una ricerca all'interno del nostro index utilizzando i parametri forniti
 
@@ -47,21 +69,30 @@ class MangeReviewIndex(ManageIndexAbstract):
         """
         ranking_algorithm = None
         sort_params = {}
-        if(scoring_algorithm=="TF_IDF"):
+        if (scoring_algorithm == "TF_IDF"):
             ranking_algorithm = scoring.TF_IDF()
         else:
             ranking_algorithm = scoring.BM25F(B=0.75, content_B=1.0, K1=1.5)
-        
-        #Questo serve in modo da avere anche i risultati senza scegliere un sort specifico
-        if(sort_by != "None"):
+
+
+        # Questo serve in modo da avere anche i risultati senza scegliere un sort specifico
+        if (sort_by != "None"):
             sort_params["sortedby"] = sort_by
-            
+
         query_parser = QueryParser(self.default_field, schema=MangeReviewIndex.schema)
         query_parsed = query_parser.parse(query)
+        print("query ",query)
+        print("query parsed ",query_parsed)
         results = []
-        with self.ix.searcher(weighting=ranking_algorithm) as searcher:
+
+        with self.ix.searcher(weighting=SentimentAwareScorer) as searcher:
+            #scorer = CustomScorer("positive_sentiment", 0.5)
             query_results = searcher.search(query_parsed, **sort_params, reverse=reversed_sort,
                                             limit=max_results * 2)
+            # text:"awesome book" AND positive_sentiment:[0.5 TO 1]
+            positive_results = searcher.search(query_parser.parse(f"{query} AND positive_sentiment:[0.5 TO 1]"), **sort_params, reverse=reversed_sort,
+                                            limit=max_results * 2)
+            #query_results.upgrade_and_extend(positive_results)
             query_results_scored = query_results.scored_length()
             print("ricerca...")
             print("----------RESULTS-----------")
@@ -82,13 +113,15 @@ class MangeReviewIndex(ManageIndexAbstract):
                     document = {}
                     for i in result:
                         document[i] = result[i]
+
                         if i == "text":
                             print(i + ": ", result[i][:300] + "...")
                         else:
                             print(i + ": ", result[i])
                     document["highlights"] = result.highlights(field)
                     results.append(document)
-
+                print("score",result.score)
+                print("boost",result.__dict__)
                 print(result[field], "\n")
                 print(result.highlights(field))
 
