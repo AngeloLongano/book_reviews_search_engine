@@ -33,7 +33,7 @@ class MangeReviewIndex(ManageIndexAbstract):
             self.ix = index.open_dir(self.index_directory_path)
 
     def search_index(self, query: str, field: str, sentiment: str, max_results: int, reversed_sort: int, sort_by: str,
-                     scoring_algorithm: str):
+                     ):
         """
         La funzione si occupa di fare una ricerca all'interno del nostro index utilizzando i parametri forniti
 
@@ -45,14 +45,8 @@ class MangeReviewIndex(ManageIndexAbstract):
         :param sort_by:
         :return:
         """
-        ranking_algorithm = None
+        
         sort_params = {}
-        if (scoring_algorithm == "TF_IDF"):
-            ranking_algorithm = scoring.TF_IDF()
-        else:
-            ranking_algorithm = scoring.BM25F(B=0.75, content_B=1.0, K1=1.5)
-
-
         # Questo serve in modo da avere anche i risultati senza scegliere un sort specifico
         if (sort_by != "None"):
             sort_params["sortedby"] = sort_by
@@ -62,11 +56,24 @@ class MangeReviewIndex(ManageIndexAbstract):
         print("query ",query)
         print("query parsed ",query_parsed)
         results = []
-
-        with self.ix.searcher(weighting=SentimentAwareScorer(positive_boost=1, negative_boost=0, neutral_boost=0)) as searcher:
+        #inizializzazione dei boost dei vari sentimenti
+        positive_boost = 0
+        negative_boost = 0
+        neutral_boost = 0
+        k1 = 0.75
+        b = 0.75
+        print("Sentiment choosen:",sentiment)
+        if sentiment == "positive_sentiment":
+            positive_boost = 2
+        elif sentiment == "neutral_sentiment":
+            neutral_boost = 2
+        elif sentiment == "negative_sentiment":
+            negative_boost = 2
+        
+        with self.ix.searcher(weighting=SentimentAwareScorer(k1,b,positive_boost, negative_boost, neutral_boost)) as searcher:
 
             query_results = searcher.search(query_parsed, **sort_params, reverse=reversed_sort,
-                                            limit=max_results * 2)
+                                            limit=max_results)
 
             query_results_scored = query_results.scored_length()
             print("ricerca...")
@@ -78,24 +85,18 @@ class MangeReviewIndex(ManageIndexAbstract):
             for result in query_results:
                 if len(results) >= max_results:
                     break
-                if sentiment != "None":
-                    result_sentiments = {"negative_sentiment": result["negative_sentiment"],
-                                         "neutral_sentiment": result["neutral_sentiment"],
-                                         "positive_sentiment": result["positive_sentiment"]}
-                    sorted_sentiments = sorted(result_sentiments.items(), key=lambda x: x[1], reverse=True)
+                document = {}
+                for i in result:
+                    document[i] = result[i]
 
-                if sentiment == "None" or sorted_sentiments[0][0] == sentiment:
-                    document = {}
-                    for i in result:
-                        document[i] = result[i]
-
-                        if i == "text":
-                            print(i + ": ", result[i][:300] + "...")
-                        else:
-                            print(i + ": ", result[i])
-                    document["highlights"] = result.highlights(field)
-                    results.append(document)
-                #TODO: da mettere lo score nella ui
+                    if i == "text":
+                        print(i + ": ", result[i][:300] + "...")
+                    else:
+                        print(i + ": ", result[i])
+                document["highlights"] = result.highlights(field)
+                document["ranking_score"] = result.score
+                results.append(document)
+                
                 print("score",result.score)
                 print("boost",result.__dict__)
                 print(result[field], "\n")

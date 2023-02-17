@@ -3,14 +3,14 @@ import math
 def dcg_calculator(values):      
     index=1
     DCG=values[0]
-    print("{:<5} {:<}".format("Gain","DCG"))
+    print("{:<5} {:<5} {:<}".format("Score","Gain","DCG"))
     for value in values:
         if index == 1:
-            print("{:<5} {:<}".format(value,DCG))   
+            print("{:<5} {:<5} {:<}".format(value,value,DCG))   
         else:
             gain_value=round(value/(math.log2(index)),2)
             DCG+=gain_value
-            print("{:<5} {:<}".format(gain_value,round(DCG,2)))
+            print("{:<5} {:<5} {:<}".format(value,gain_value,round(DCG,2)))
             
         index += 1
 

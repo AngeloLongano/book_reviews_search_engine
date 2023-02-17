@@ -43,7 +43,7 @@ class App(customtkinter.CTk):
         self.num_max_docs_label.grid(row=1, column=0)
 
         self.num_max_docs = customtkinter.CTkEntry(master=self.left_side_bar,
-                                                   placeholder_text="N max",
+                                                   placeholder_text="10",
                                                    width=120,
                                                    height=25,
                                                    border_width=2,
@@ -59,16 +59,6 @@ class App(customtkinter.CTk):
                                                            values=["None", "Positive", "Neutral", "Negative"], )
         self.sentiment_value.grid(row=4, column=0, padx=20, pady=10)
         self.sentiment_value.set("None")
-
-        # algoritmo di scoring
-        
-        self.scoring_algorithm_label = customtkinter.CTkLabel(self.left_side_bar, text="Ranking:", anchor="w")
-        self.scoring_algorithm_label.grid(row=5, column=0)
-        
-        self.scoring_algorithm = customtkinter.CTkOptionMenu(self.left_side_bar,
-                                                           values=["BM25F", "TF_IDF"], )
-        self.scoring_algorithm.grid(row=6, column=0, padx=20, pady=10)
-        self.scoring_algorithm.set("BM25F")
         
         
         # Sort By
@@ -195,6 +185,14 @@ class App(customtkinter.CTk):
                                                     font=(None, 14),
                                                     corner_radius=8)
         self.review_author.grid(row=3, column=0)
+        
+        #Ranking score 
+        self.ranking_score = customtkinter.CTkLabel(self.book,
+                                                    text="Rank score: "+str(round(document["ranking_score"],2)),
+                                                    text_color='#1e538c',
+                                                    font=(None, 14),
+                                                    corner_radius=8)
+        self.ranking_score.grid(row=4, column=0)
 
         # Sentiment
         self.sentiment = customtkinter.CTkLabel(self.book,
@@ -264,7 +262,7 @@ class App(customtkinter.CTk):
         num_max_docs = self.num_max_docs.get()
         sentiment_value = self.sentiment_value.get()
         sorted_by = self.sort_by.get()
-        scoring = self.scoring_algorithm.get()
+        
 
         # remove results of previus query
         self.delete_books()
@@ -292,7 +290,7 @@ class App(customtkinter.CTk):
         query_corretta = index_manager.correct_query(query)
 
         query_results = index_manager.search_index(query, "text", sort_name_corrispondence[sentiment_value],
-                                                   num_max_docs, reverse, sort_name_corrispondence[sorted_by],scoring)
+                                                   num_max_docs, reverse, sort_name_corrispondence[sorted_by])
 
         self.results_number.configure(text="About " + str(len(query_results)) + " results")
 
