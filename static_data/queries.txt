@@ -1,3 +1,24 @@
+-----QUERY IN LINGUAGGIO NATURALE-----
+
+QUERY 1: Voglio tutte le recensioni che contengono la frase "awesome book"
+QUERY 2: Voglio tutte le recensioni che contengono la frase "i could not believe it" che abbiano sentimento positivo
+QUERY 3: Voglio tutte le recensioni che contengono la frase "i could not believe it" che abbiano sentimento negativo
+QUERY 4: Voglio tutte le recensioni che contengono la frase "new technology" e la parola amazing 
+QUERY 5: Voglio tutte le recensioni che contengono la frase "the worst book ever" che sono state scritte nel 2010
+QUERY 6: Voglio tutte le recensioni che contengono la frase "african country" e che non hanno nel titolo le parole lion o zebra
+QUERY 7: Voglio tutte le recensioni che contengono la frase "i recommend this book to everyone"
+QUERY 8: Voglio tutte le recensioni che contengono la frase "waste of money" che abbiano sentimento negativo
+QUERY 9: Voglio tutte le recensioni che contengono la frase "waste of money" che abbiano sentimento neutrale
+QUERY 10: Voglio tutte le recensioni che contengono la frase "waste of money" che abbiano sentimento positivo
+
+
+
+-----TRADUZIONE QUERY IN LINGUAGGIO DI INTERROGAZIONE-----
+
+NB!!
+
+La chiocciola "@" nelle query sta ad indicare che bisogna selezionare il tipo di sentiment dalla barra laterale nel campo sentiment dell'interfaccia grafica
+
 QUERY 1: text:"awesome book"
 QUERY 2: text:"i could not belive it" @positive
 QUERY 3: text:"i could not belive it" @negative
