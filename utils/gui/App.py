@@ -7,7 +7,11 @@ from utils.ManageReviewIndex import MangeReviewIndex
 from utils.gui.top_level_window import ToplevelWindow
 from utils.models.DocumentModel import DocumentModel
 
+RESULT_CANVAS_HEIGHT = 450
+RESULT_CANVAS_WIDTH = 800
 
+# normal 450 x 800
+# matebook d15 900 x 1500
 class App(customtkinter.CTk):
 
     # costruttore
@@ -103,7 +107,7 @@ class App(customtkinter.CTk):
                                               border_width=0)
         self.results.grid(row=2, column=1, rowspan=4, columnspan=2)
 
-        self.my_canvas = Canvas(self.results, width=800, height=450, bg='#1a1a1a', bd=0, highlightthickness=0)
+        self.my_canvas = Canvas(self.results, width=RESULT_CANVAS_WIDTH, height=RESULT_CANVAS_HEIGHT, bg='#1a1a1a', bd=0, highlightthickness=0)
         self.my_canvas.pack(side=LEFT, fill="y")
 
         self.yscroll = customtkinter.CTkScrollbar(self.results, orientation="vertical", command=self.my_canvas.yview,
