@@ -2,8 +2,9 @@ import os
 from pathlib import Path
 
 ORIGINAL_DATA_PATH = os.getcwd() + "/source_data/Books_rating.csv"
-OPTIMIZED_DATA_PATH = os.getcwd() + '/processed_data/books_rating.csv'
-ANALYZED_DATA_PATH = os.getcwd() + "/processed_data/books_rating_with_sentimental.csv"
+OPTIMIZED_DATA_DIR = os.getcwd() + '/processed_data'
+OPTIMIZED_DATA_PATH = OPTIMIZED_DATA_DIR + '/books_rating.csv'
+ANALYZED_DATA_PATH = OPTIMIZED_DATA_DIR + "/books_rating_with_sentimental.csv"
 MODEL_SENTIMENT_PATH = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
 
 INDEX_DIR_PATH = os.getcwd() + "/index"
@@ -11,6 +12,9 @@ INDEX_DIR_PATH = os.getcwd() + "/index"
 
 def is_there_optimized_data() -> bool:
     """ Controlla se è presente il file dei dati già ottimizzato"""
+    if not os.path.isdir(OPTIMIZED_DATA_DIR):
+        print("Creata cartella processed_data")
+        os.makedirs(OPTIMIZED_DATA_DIR)
     return Path(OPTIMIZED_DATA_PATH).is_file()
 
 
