@@ -1,0 +1,43 @@
+[
+  {
+    "query": "text:\"awesome book\"",
+    "relevances": [5, 5, 5 ,5 ,5 ,5, 5 ,5, 5, 5]
+  },
+  {
+    "query": "text:\"i could not belive it\" @positive",
+    "relevances": [5, 4, 5, 4, 3, 3, 3, 2, 3, 3]
+  },
+
+  {
+    "query": "text:\"i could not belive it\" @negative",
+    "relevances": [5, 4, 4, 3, 3, 3, 2, 3, 2, 1]
+  },
+  {
+    "query": "text:\"new technology\" AND text:\"amazing\"",
+    "relevances": [5, 4, 5, 4, 3, 3, 3, 4]
+  },
+  {
+    "query": "text:\"the worst book ever\"  AND date:2010",
+    "relevances": [5, 5, 5, 5, 5, 5, 5, 4, 5, 4]
+  },
+  {
+    "query": "text:\"african country\" AND NOT (title:\"lion\" OR title:\"zebra\")",
+    "relevances": [4, 5, 4, 4, 4, 4, 5, 4, 4, 4]
+  },
+  {
+    "query": "text:\"i recommend this book to everyone\"",
+    "relevances": [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+  },
+  {
+    "query": "text:\"waste of money\" @sentiment=Negative",
+    "relevances": [4, 4, 5, 3, 5, 5, 5, 3, 3, 3]
+  },
+  {
+    "query": "text:\"waste of money\" @sentiment=Neutral",
+    "relevances": [4, 4, 5, 4, 4, 4, 4, 3, 4, 4]
+  },
+  {
+    "query": "text:\"waste of money\" @sentiment=Positive",
+    "relevances": [5, 3, 4, 3, 4, 3, 4, 3, 4, 4]
+  }
+]
