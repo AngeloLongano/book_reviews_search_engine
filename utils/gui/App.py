@@ -91,7 +91,7 @@ class App(customtkinter.CTk):
                                                     height=32,
                                                     border_width=0,
                                                     corner_radius=8,
-                                                    text="Ricerca")
+                                                    text="Search")
         self.submit_query.grid(row=0, column=2, padx=0, pady=(10, 20))
 
         # number of results
@@ -286,16 +286,17 @@ class App(customtkinter.CTk):
         print("parametri: ", "query:", query, "reverse:", reverse, "num max docs:", num_max_docs, "sentiment:",
               sentiment_value, "sorted by:", sorted_by)
 
+        
         index_manager = MangeReviewIndex()
         query_corretta = index_manager.correct_query(query)
 
         query_results = index_manager.search_index(query, "text", sort_name_corrispondence[sentiment_value],
                                                    num_max_docs, reverse, sort_name_corrispondence[sorted_by])
 
-        self.results_number.configure(text="About " + str(len(query_results)) + " results")
+        self.results_number.configure(text=f"About {query_results['score_info']['scored_results']} scored results, estimated matched documents {query_results['score_info']['max_results']}")
 
-        if query_results:
-            for index, result in enumerate(query_results):
+        if query_results["results"]:
+            for index, result in enumerate(query_results["results"]):
                 self.crea_libro(index, result)
         else:
             self.print_error(query_corretta)

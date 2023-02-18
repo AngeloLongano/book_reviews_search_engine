@@ -54,15 +54,15 @@ class MangeReviewIndex(ManageIndexAbstract):
         query_parser = QueryParser(self.default_field, schema=MangeReviewIndex.schema)
         query_parsed = query_parser.parse(query)
         print("query ",query)
-        print("query parsed ",query_parsed)
         results = []
+        score_info = {}
         #inizializzazione dei boost dei vari sentimenti
         positive_boost = 0
         negative_boost = 0
         neutral_boost = 0
         k1 = 0.75
         b = 0.75
-        print("Sentiment choosen:",sentiment)
+
         if sentiment == "positive_sentiment":
             positive_boost = 2
         elif sentiment == "neutral_sentiment":
@@ -76,11 +76,13 @@ class MangeReviewIndex(ManageIndexAbstract):
                                             limit=max_results)
 
             query_results_scored = query_results.scored_length()
+            estimated_max_length = query_results.estimated_length()
+            score_info["max_results"] = estimated_max_length
+            score_info["scored_results"] = query_results_scored
             print("ricerca...")
             print("----------RESULTS-----------")
             print("Scored results: ", query_results_scored)
-            print("Total estimated results between: ", query_results.estimated_min_length(), "and",
-                  query_results.estimated_length())
+            print("Max estimated results: ", estimated_max_length)
 
             for result in query_results:
                 if len(results) >= max_results:
@@ -90,22 +92,22 @@ class MangeReviewIndex(ManageIndexAbstract):
                     document[i] = result[i]
 
                     if i == "text":
-                        print(i + ": ", result[i][:300] + "...")
+                        print(i + ": ", result[i])
                     else:
                         print(i + ": ", result[i])
                 document["highlights"] = result.highlights(field)
                 document["ranking_score"] = result.score
+                
                 results.append(document)
                 
-                print("score",result.score)
-                print("boost",result.__dict__)
+                print("Ranking score",result.score)
                 print(result[field], "\n")
                 print(result.highlights(field))
 
                 print("\n")
                 print("\n")
 
-        return results
+        return {"results":results,"score_info":score_info}
 
     def writer_function(self) -> Dict:
         """
