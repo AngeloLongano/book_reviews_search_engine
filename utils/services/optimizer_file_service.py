@@ -33,4 +33,4 @@ def optimize_file(old_file_path: str, new_file_path: str, parse_object: Callable
                 parsed_item = parse_object(item)
                 if parsed_item is not None:
                     writer.writerow(parsed_item)
-            print()
+            print("\n")

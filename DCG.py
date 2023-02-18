@@ -1,29 +1,39 @@
-import math
+import math,json
+
+#Scoring tra 0 e 5
+"dcg = score/log2(pos)"
+"idcg = 5/log2(pos)"
+"ndcg = dcg/idcg"
 
 def dcg_calculator(values):      
     index=1
-    DCG=values[0]
-    print("{:<5} {:<5} {:<}".format("Score","Gain","DCG"))
+    dcg=values[0]
+    print("{:<5} {:<5} {:<5} {:<5} {:<5}".format("Score","Gain","DCG","IDCG","NDCG"))
     for value in values:
         if index == 1:
-            print("{:<5} {:<5} {:<}".format(value,value,DCG))   
+            idcg = 5
+            ndcg = float(dcg/idcg)
+            print("{:<5} {:<5} {:<5} {:<5} {:<5}".format(value,value,dcg,idcg,ndcg))   
         else:
             gain_value=round(value/(math.log2(index)),2)
-            DCG+=gain_value
-            print("{:<5} {:<5} {:<}".format(value,gain_value,round(DCG,2)))
+            dcg+=gain_value
+            idcg += 5/(math.log2(index))
+            ndcg = dcg/idcg
+            print("{:<5} {:<5} {:<5} {:<5} {:<5}".format(value,gain_value,round(dcg,2),round(idcg,2),round(ndcg,2)))
             
         index += 1
 
 if __name__ == "__main__":
-        
-    with open("valori.txt","r") as f:
-        num_of_entrys = 10
-        values = []
-        for line in f.readlines():
-            
-            values_str = line.split(" ")
-            values = [int(v) for v in values_str]
-            print("----------------------------\n\n")
-            dcg_calculator(values)
+    
+    
+    with open("static_data/benchmark_query.json","r") as f:
+        with open("static_data/queries.txt","w") as queries:
+            data = json.load(f)
+            for index,item in enumerate(data):
+                print("----------------------------\n\n")
+                print(f"QUERY {index+1}\n")
+                print(item["query"]+"\n")
+                queries.write(f"QUERY {index+1}: {item['query']}\n")
+                dcg_calculator(item["relevances"])
 
 

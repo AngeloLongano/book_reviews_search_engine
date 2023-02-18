@@ -1,0 +1,10 @@
+QUERY 1: text:"awesome book"
+QUERY 2: text:"i could not belive it" @positive
+QUERY 3: text:"i could not belive it" @negative
+QUERY 4: text:"new technology" AND text:"amazing"
+QUERY 5: text:"the worst book ever"  AND date:2010
+QUERY 6: text:"african country" AND NOT (title:"lion" OR title:"zebra")
+QUERY 7: text:"i recommend this book to everyone"
+QUERY 8: text:"waste of money" @sentiment=Negative
+QUERY 9: text:"waste of money" @sentiment=Neutral
+QUERY 10: text:"waste of money" @sentiment=Positive

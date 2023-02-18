@@ -35,8 +35,7 @@ def create_index():
                 "date": datetime.fromtimestamp(int(item["date"])),
 
             }
-            # print(review)
             # aggiunta del documento all'index
             index_manager_functions["add_document"](**review)
         index_manager_functions["save_document"]()
-        print()
+        print("\n")
