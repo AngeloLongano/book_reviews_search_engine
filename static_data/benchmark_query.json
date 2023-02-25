@@ -4,12 +4,12 @@
     "relevances": [5, 5, 5 ,5 ,5 ,5, 5 ,5, 5, 5]
   },
   {
-    "query": "text:\"i could not belive it\" @positive",
+    "query": "text:\"i could not believe it\" @positive",
     "relevances": [5, 4, 5, 4, 3, 3, 3, 2, 3, 3]
   },
 
   {
-    "query": "text:\"i could not belive it\" @negative",
+    "query": "text:\"i could not believe it\" @negative",
     "relevances": [5, 4, 4, 3, 3, 3, 2, 3, 2, 1]
   },
   {

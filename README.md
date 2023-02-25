@@ -90,6 +90,12 @@ Si può anche fare l'ordinamento dei risultati secondo il valore dei seguenti ca
 
 Si può anche specificare il numero di risultati massimi che si vuole visualizzare specificandolo nel campo __max number of results__
 
+Si può anche cambiare l'ordine da crescente a decrescente e viceversa dei riusltati ottenuti dai filtri utilizzati, utilizzando il pulsante __reverse sort__
+
+Per ogni ricerca effettuata sul campo text, i risultati ritornati nell'interfaccia grafica, mostreranno __solo__ la parte di testo nella quale è stato trovato un match della query, per vedere il testo completo del risultato basta cliccare su __full review__ e visualizzarlo.
+
+Per tutte le altre ricerche che vengono fatte su altri campi diversi da text, si potrà visualizzare il campo text nella full review.
+
 # Benchmark
 Per visualizzare le __UIN__ e le loro relative traduzioni in query nel linguaggio di interrogazione,fare riferimento al file __queries.txt__ nella cartella __static_data__
 
