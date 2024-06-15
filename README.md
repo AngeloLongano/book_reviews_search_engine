@@ -1,4 +1,4 @@
-# BookReviewsSearchEngine
+# Book Reviews Search Engine
 
 #### N.B. : Make sure you have installed all external modules
 __Use python 3.10__
